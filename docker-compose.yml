@@ -1,0 +1,22 @@
+version: "3.9"
+
+services:
+  # FASTAPI BACKEND
+  backend:
+    container_name: fastapi-backend
+    build: ./backend
+    working_dir: /code/app
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    environment:
+      DEBUG: 1
+    volumes:
+      - ./backend:/code
+    ports:
+      - "80:8000"
+    restart: on-failure
+  # database
+  # database:
+    # container_name: fastapi-database
+    # build: ./database
+  # ...
+
