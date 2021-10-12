@@ -21,8 +21,10 @@ def get_all(db: Session):
     raise HTTPException(status_code = status.HTTP_404_NOT_FOUND, detail=f"Users not found")
   return users
 
-def destroy():
-  pass
-
-def get_one():
-  pass
+def destroy(id: int, db: Session):
+  user = db.query(User).filter(User.id == id)
+  if not user.first():
+    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Could not find the user")
+  user.delete(synchronize_session=False)
+  db.commit()
+  return "Deletes successfully"

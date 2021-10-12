@@ -21,3 +21,8 @@ def show_all(db: Session = Depends(get_db) ): #, get_currrent_user: UserView = D
 @router.get("/{id}" ) #, response_model = UserView)
 def show_one(id: int, db: Session = Depends(get_db) ): #, get_current_user: UserView = Depends(get_current_user)):
   return UserRepository.get_one_user(id, db)
+
+# delete
+@router.delete("/{id}", status_code = status.HTTP_204_NO_CONTENT)
+def delete(id: int, db: Session = Depends(get_db), get_current_user: UserView = Depends(get_current_user)):
+  return UserRepository.destroy(id, db)

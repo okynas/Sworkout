@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS `workout` (
   `weight` INTEGER,
   `created_at` DateTime NOT NULL,
   `updated_at` DateTime NOT NULL,
-  `exercise_id` INTEGER NOT NULL
+  `exercise_id` INTEGER NOT NULL,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`exercise_id`) REFERENCES exercise(id)
 ) ENGINE=InnoDB;
@@ -38,9 +38,23 @@ CREATE TABLE IF NOT EXISTS `user` (
   `last_name` VARCHAR(20) not null,
   `email` VARCHAR(120) unique not null,
   `password` VARCHAR(255) not null,
-  `is_admin` BOOLEAN unique not null,
-  `is_confirmed` BOOLEAN unique not null,
+  `is_admin` BOOLEAN not null,
+  `is_confirmed` BOOLEAN not null,
   `created_at` DateTime NOT NULL,
   `updated_at` DateTime NOT NULL,
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS `recovery` (
+  `id` INTEGER AUTO_INCREMENT,
+  `email` VARCHAR(120) unique not null,
+  `reset_code` VARCHAR(255) unique not null,
+  `expires_in` DateTime NOT NULL,
+  `created_at` DateTime NOT NULL,
+  `updated_at` DateTime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB;
+
+-- TEST DATA: USER WITH USERNAME: admin AND PASSWORD: admin
+INSERT IGNORE INTO `user` (`username`,`first_name`,`last_name`,`email`,`password`,`is_admin`,`is_confirmed`,`created_at`,`updated_at`)
+VALUES ("admin", "admin", "admin", "admin@okynas.com", "$2b$12$yBablCOZRNlmU0F6sUdAIOIxRS3jj1Xl../9OSQTEOCOM5a9Cxj9y", 0, 0, NOW(), NOW()); 

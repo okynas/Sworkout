@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session
+from sqlalchemy.sql.expression import true
 from config.middleware import validate_email, verify_password, create_access_token, hash_password, create_recovery_key, send_recovery_mail
 from models import User, Recovery
 from schema import UserCreate, ForgotPassword, ResetPassword
@@ -22,7 +23,7 @@ def login(db: Session, request):
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Incorrect password")
 
 
-  access_token = create_access_token(data={"sub": user.username})
+  access_token = create_access_token(data={"sub": user.username}, expires_delta=30)
   return {"access_token": access_token, "token_type": "bearer"}
 
 def create(request: UserCreate, db: Session):
@@ -112,3 +113,10 @@ def reset_password(request: ResetPassword, db: Session):
     "status_code" : status.HTTP_202_ACCEPTED ,
     "detail" : "Successfully updated user"
   }
+
+def logout(db: Session, currentUser: User):
+  try:
+    access_token = create_access_token(data={"sub": currentUser.username}, expires_delta=0)
+    return {"access_token": access_token, "token_type": "bearer"}
+  except Exception:
+    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"No token provided")

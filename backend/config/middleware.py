@@ -6,6 +6,7 @@ from jose import JWTError, jwt
 from fastapi import Depends, HTTPException, status
 from schema import TokenData
 from fastapi_mail import FastMail, MessageSchema,ConnectionConfig
+from typing import Optional
 
 def hash_password(password_in_plain_text):
   '''
@@ -24,7 +25,7 @@ def verify_password(plain_password, hashed_password):
   '''
   return settings.PASSWORD_CONTEXT.verify(plain_password, hashed_password)
 
-def create_access_token(data: dict):
+def create_access_token(data: dict, expires_delta: int):
   '''
   Creating an access token to be used as Bearer-token for
   authentication on logging in as a user.
@@ -35,8 +36,11 @@ def create_access_token(data: dict):
   { "alg": "HS256", "typ": "JWT", "sub": "password", "exp": 1623787756 }
   '''
   to_encode = data.copy()
-  expires = datetime.utcnow() + timedelta(minutes=int(settings.ACCESS_TOKEN_EXPIRE_MINUTES))
-  to_encode.update({"exp": expires})
+  # if expires_delta:
+  expire = datetime.utcnow() + timedelta(minutes=int(expires_delta))
+  # else:
+    # expire = datetime.utcnow() + timedelta(minutes=int(settings.ACCESS_TOKEN_EXPIRE_MINUTES))
+  to_encode.update({"exp": expire})
   encoded_jwt = jwt.encode(to_encode, settings.SECRET_KEY, algorithm = settings.ALGORITHM)
   return encoded_jwt
 
@@ -52,6 +56,7 @@ def verify_token(token: str, credentials_exception):
   try:
     payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
     username: str = payload.get("sub")
+
     if username is None:
       raise credentials_exception
     token_data = TokenData(username=username)
