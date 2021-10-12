@@ -2,7 +2,7 @@ from typing import List
 from config.middleware import get_current_user
 from fastapi import APIRouter, Depends, status
 import database
-from schema import UserView, UserCreate, UserUpdate, ExerciseUpdate, ExerciseCreate, ExerciseView
+from schema import UserView, ExerciseUpdate, ExerciseCreate, ExerciseView
 from sqlalchemy.orm import Session
 from repository import ExerciseRepository
 

@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS `workout` (
   `weight` INTEGER,
   `created_at` DateTime NOT NULL,
   `updated_at` DateTime NOT NULL,
-  `exercise_id` INTEGER NOT NULL,
+  `exercise_id` INTEGER,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`exercise_id`) REFERENCES exercise(id)
 ) ENGINE=InnoDB;
