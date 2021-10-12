@@ -4,11 +4,11 @@ from datetime import datetime
 
 class ExerciseBase(BaseModel):
   name: Optional[str]
-  image : Optional[int]
+  image : Optional[str]
   difficulty: Optional[int]
 
 class ExerciseCreate(ExerciseBase):
-  pass
+  name: str
 
 class ExerciseUpdate(ExerciseBase):
   pass
