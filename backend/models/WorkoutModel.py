@@ -18,4 +18,4 @@ class Workout(Base):
   exercise_id = Column(Integer, ForeignKey("exercise.id"), nullable=False)
   exercise = relationship("Exercise", back_populates="workout")
 
-  # session = relationship("Session", back_populates="workout")
+  session = relationship("Session", back_populates="workout")
