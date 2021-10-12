@@ -15,7 +15,7 @@ DB_DB = os.environ.get('MYSQL_DATABASE')
 DB_HOST = os.environ.get('MYSQL_HOST')
 DB_SERVER = socket.gethostbyname(socket.gethostname())
 
-SQLALCHEMY_URL = "mysql://admin:admin@mysql/sworkout?charset=utf8mb4"
+SQLALCHEMY_URL = f'{DB_HOST}://{DB_USER}:{DB_PWD}@{DB_HOST}/{DB_DB}?charset=utf8mb4'
 engine = create_engine(SQLALCHEMY_URL)
 # SQLALCHEMY_URL = "sqlite:///./database.db" # <---- change this
 # engine = create_engine(SQLALCHEMY_URL, connect_args={"check_same_thread": False})

@@ -8,8 +8,7 @@ from models import User
 import datetime
 
 # get one
-def get_one(id: int, db: Session):
-  return None
+def get_one_user(id: int, db: Session):
   user = db.query(User).filter(User.id == id).first()
   if not user:
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Could not find the user")
