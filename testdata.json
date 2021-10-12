@@ -1,0 +1,52 @@
+{
+  "models": {
+    "user":{
+      "first_name" : "str",
+      "last_name": "str",
+      "email": "email",
+      "id": "int",
+      "username": "str",
+      "is_confirmed" : "bool",
+      "is_admin" : "bool",
+      "created_at" : "datetime",
+      "updated_at" : "datetime"
+    },
+    "recovery" :{
+      "id" : "int" ,
+      "email": "email",
+      "reset_code": "str",
+      "expires_in" : "datetime"
+    },
+
+
+    "exercise": {
+      "id": "int",
+      "name" : "str",
+      "image": "str",
+      "difficulty": "int"
+    },
+    "workout" : {
+      "id": "int",
+      "exercise_id": "int",
+      "repetition": "int",
+      "set": "int",
+      "weight": "int"
+    },
+    "session": {
+      "id": "int",
+      "date": "datetime",
+      "duration": "int",
+      "workouts": [
+        {
+          "workout_id": "int"
+        }
+      ],
+      "user_id": "int"
+    }
+  },
+  "data": {
+    "user":[],
+    "recovery" :[],
+    "workout" : []
+  }
+}

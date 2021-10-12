@@ -1,22 +1,63 @@
 version: "3.9"
-
 services:
   # FASTAPI BACKEND
   backend:
     container_name: fastapi-backend
     build: ./backend
-    working_dir: /code/app
-    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    working_dir: /code
+    command: uvicorn main:app --host 0.0.0.0 --port 5000 --reload
     environment:
       DEBUG: 1
+      FASTAPI_PROJECT_NAME: Swift Workout
+      FASTAPI_PROJECT_VERSION: 1.0.0
+      FASTAPI_DESCRIPTION: "Normal description"
+      PROJECT_STATUS: Development
+      FASTAPI_AUTHENTICATION_SECRET_KEY: d15905d2c33588d2264167c3f9c190a1
+      FASTAPI_AUTHENTICATION_ALGORITHM: HS256
+      FASTAPI_AUTHENTICATION_TOKEN_EXPIRE_MINUTES: 30
+      FASTAPI_RECOVERY_KEY_EXPIRE_MINUTES : 43200
+      FASTAPI_RECOVERY_SECRET_KEY: e66543ab68102d3a2cacd650168d8102
+      FASTAPI_RECOVERY_LENGTH: 24
+
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+      MYSQL_DATABASE: sworkout
+      MYSQL_HOST: mysql
+      # # EMAIL SETTINGS
+      # MAIL_USERNAME
+      # MAIL_PASSWORD
+      # MAIL_FROM
+      # MAIL_PORT
+      # MAIL_SERVER
+      # MAIL_TLS
+      # MAIL_SSL
+      # USE_CREDENTIALS
     volumes:
       - ./backend:/code
     ports:
-      - "80:8000"
+      - "4001:5000"
     restart: on-failure
-  # database
-  # database:
-    # container_name: fastapi-database
-    # build: ./database
-  # ...
+  # db
+  mysql:
+    build: ./database
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+      MYSQL_DATABASE: sworkout
+      MYSQL_HOST: mysql
+    ports:
+      - 3306:3306
+    volumes:
+      - ./database/:/docker-entrypoint-initdb.d/
+  # adminer
+  adminer:
+    depends_on:
+      - mysql
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
 
