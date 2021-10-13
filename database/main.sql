@@ -27,8 +27,10 @@ CREATE TABLE IF NOT EXISTS `session` (
   `created_at` DateTime NOT NULL,
   `updated_at` DateTime NOT NULL,
   `workout_id` INTEGER NOT NULL,
+  `user_id` INTEGER NOT NULL,
   PRIMARY KEY (`id`),
-  FOREIGN KEY (`workout_id`) REFERENCES workout(id)
+  FOREIGN KEY (`workout_id`) REFERENCES workout(id),
+  FOREIGN KEY (`user_id`) REFERENCES user(id)
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS `user` (
@@ -58,3 +60,12 @@ CREATE TABLE IF NOT EXISTS `recovery` (
 -- TEST DATA: USER WITH USERNAME: admin AND PASSWORD: admin
 INSERT IGNORE INTO `user` (`username`,`first_name`,`last_name`,`email`,`password`,`is_admin`,`is_confirmed`,`created_at`,`updated_at`)
 VALUES ("admin", "admin", "admin", "admin@okynas.com", "$2b$12$yBablCOZRNlmU0F6sUdAIOIxRS3jj1Xl../9OSQTEOCOM5a9Cxj9y", 0, 0, NOW(), NOW()); 
+
+insert ignore into `exercise`(`id`, `name`, `image`, `difficulty`, `created_at`, `updated_at`)
+values (1, "Benchpress", "", 3, NOW(), NOW());
+
+insert ignore into `workout`(`id`, `repetition`, `set`, `weight`, `created_at`, `updated_at`, `exercise_id`)
+values (1, 10, 3, 3, NOW(), NOW(), 1);
+
+insert ignore into `session`(`id`, `duration`, `created_at`, `updated_at`, `workout_id`, `user_id`)
+values (1, 100, NOW(), NOW(), 1, 1);

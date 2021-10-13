@@ -19,5 +19,5 @@ class User(Base):
   created_at = Column(DateTime, default=datetime.datetime.utcnow)
   updated_at = Column(DateTime, default=datetime.datetime.utcnow)
 
-  # workout = relationship("Workout", back_populates="user")
+  session = relationship("Session", back_populates="user")
   # ministry = relationship("Ministry" , secondary=FavoriteMinistries.__tablename__, back_populates="user")

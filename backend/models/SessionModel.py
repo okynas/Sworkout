@@ -15,5 +15,7 @@ class Session(Base):
   workout_id = Column(Integer, ForeignKey("workout.id"), nullable=False)
   workout = relationship("Workout", back_populates="session")
 
-  # user_id = Column(Integer, ForeignKey("user.id"), nullable=False)
-  # user = relationship("User", back_populates="session")
+  user_id = Column(Integer, ForeignKey("user.id"), nullable=False)
+  user = relationship("User", back_populates="session")
+
+# https://github.com/okynas/ministry-marble/blob/master/ministry-fullstack/backend/models/FavoriteMinistriesModel.py
