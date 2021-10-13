@@ -43,7 +43,7 @@ def update_one(id: int, request: ExerciseUpdate, db: Session):
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Exercise with id {id} not found")
   
   
-  exercise.update({"updated_at": datetime.datetime.now(), **request.dict()})
+  exercise.update({"updated_at": datetime.datetime.now(), **request.dict(exclude_unset=True)})
   db.commit()
   return 'Updated successfully'
 

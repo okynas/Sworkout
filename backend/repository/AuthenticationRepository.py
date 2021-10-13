@@ -114,9 +114,9 @@ def reset_password(request: ResetPassword, db: Session):
     "detail" : "Successfully updated user"
   }
 
-def logout(db: Session, currentUser: User):
-  try:
-    access_token = create_access_token(data={"sub": currentUser.username}, expires_delta=0)
-    return {"access_token": access_token, "token_type": "bearer"}
-  except Exception:
-    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"No token provided")
+# def logout(db: Session, currentUser: User):
+#   try:
+#     access_token = create_access_token(data={"sub": currentUser.username}, expires_delta=0)
+#     return {"access_token": access_token, "token_type": "bearer"}
+#   except Exception:
+#     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"No token provided")

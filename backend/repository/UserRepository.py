@@ -21,10 +21,10 @@ def get_all(db: Session):
     raise HTTPException(status_code = status.HTTP_404_NOT_FOUND, detail=f"Users not found")
   return users
 
-def destroy(id: int, db: Session):
-  user = db.query(User).filter(User.id == id)
+def destroy(currentUser: User, db: Session):
+  user = db.query(User).filter(User.username == currentUser.username)
   if not user.first():
-    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Could not find the user")
+    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Could not find your user")
   user.delete(synchronize_session=False)
   db.commit()
   return "Deletes successfully"

@@ -42,6 +42,6 @@ def forgot_password_and_send_password_reset_token(request: ForgotPassword, db: S
 def reset_password_with_token(request: ResetPassword, db: Session = Depends(get_db)):
   return AuthenticationRepository.reset_password(request, db)
 
-@router.post("/logout")
-def logout_and_reset_token(db: Session = Depends(get_db), get_current_user = Depends(get_current_user)):
-  return AuthenticationRepository.logout(db, get_current_user)
+# @router.post("/logout")
+# def logout_and_reset_token(db: Session = Depends(get_db), get_current_user = Depends(get_current_user)):
+#   return AuthenticationRepository.logout(db, get_current_user)
