@@ -10,12 +10,9 @@ class WorkoutBase(BaseModel):
 
 class WorkoutCreate(WorkoutBase):
   exercise_id: int
-  repetition: int
-  set: int
-  weight: int
 
 class WorkoutUpdate(WorkoutBase):
-  pass
+  exercise_id: int
 
 class WorkoutView(WorkoutBase):
   id: int

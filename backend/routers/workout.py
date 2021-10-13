@@ -30,7 +30,7 @@ def create_exercise(request: WorkoutCreate, db: Session = Depends(get_db) ): # ,
 def update_one_exercise(id: int, request: WorkoutUpdate, db: Session = Depends(get_db)):
   return WorkoutRepository.update_one(id, request, db)
 
-# @router.delete("/", status_code = status.HTTP_204_NO_CONTENT)
-# def delete_exercise(id: int, db: Session = Depends(get_db)):
-#   return ExerciseRepository.delete(id, db)
+@router.delete("/", status_code = status.HTTP_204_NO_CONTENT)
+def delete_exercise(id: int, db: Session = Depends(get_db)):
+  return WorkoutRepository.delete(id, db)
 

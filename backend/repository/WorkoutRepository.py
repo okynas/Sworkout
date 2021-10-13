@@ -37,7 +37,7 @@ def create(request: WorkoutCreate, db: Session):
     repetition = request.repetition,
     set = request.set,
     weight = request.weight,
-    exercise_id = exercise.id
+    exercise_id = request.exercise_id
   )
   db.add(new_workout)
   db.commit()
@@ -51,16 +51,16 @@ def update_one(id: int, request: WorkoutUpdate, db: Session):
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Workout with id {id} not found")
   
   
-  workout.update({"updated_at": datetime.datetime.now(), **request.dict()})
+  workout.update({"updated_at": datetime.datetime.now(), **request.dict(exclude_unset=True)})
   db.commit()
   return 'Updated successfully'
 
-# def delete(id: int, db: Session):
-#   exercise = db.query(Exercise).filter(Exercise.id == id)
+def delete(id: int, db: Session):
+  workout = db.query(Workout).filter(Workout.id == id)
   
-#   if not exercise.first():
-#     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Exercise with id {id} not found")
+  if not workout.first():
+    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Workout with id {id} not found")
   
-#   exercise.delete(synchronize_session=False)
-#   db.commit()
-#   return "Deletes successfully"
+  workout.delete(synchronize_session=False)
+  db.commit()
+  return "Deletes successfully"
