@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from database import engine, Base
-from routers import users, authentication, exercise, workout
+from routers import users, authentication, exercise, workout, session
 from config.settings import settings
 # import datetime
 
@@ -16,6 +16,7 @@ app = FastAPI(
 
 Base.metadata.create_all(engine)
 
+app.include_router(session.router)
 app.include_router(workout.router)
 app.include_router(exercise.router)
 app.include_router(users.router)
