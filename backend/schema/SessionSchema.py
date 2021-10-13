@@ -8,25 +8,13 @@ from .WorkoutSchema import WorkoutView
 class SessionBase(BaseModel):
   duration: int
 
-class SessionCreate(SessionBase):
-  pass
-
-class SessionUpdate(SessionBase):
-  pass
+class SessionCreateOrUpdate(SessionBase):
+  workout_id : int
 
 class SessionView(SessionBase):
   id: int
-  workout: WorkoutView = None
+  workout: List[WorkoutView] = []
   user: UserView = None
-
-  class Config():
-    orm_mode = True
-
-
-class SessionView2(SessionBase):
-  id: int
-  user: UserView = None
-  workouts: List[WorkoutView] = []
 
   class Config():
     orm_mode = True
