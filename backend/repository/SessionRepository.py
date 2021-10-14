@@ -3,29 +3,29 @@ from config.middleware import create_recovery_key
 from sqlalchemy.orm import Session, session
 from fastapi import HTTPException, status
 from schema import  ExerciseUpdate, ExerciseCreate, SessionCreateOrUpdate
-from models import User, Session
+from models import User
 import datetime
 
 # get all
-def get_all(db: Session, current_user : User):
+# def get_all(db: Session, current_user : User):
 
-  # check if you are current user:
-  user_to_check = db.query(User).filter(User.username == current_user.username).first()
-  if not user_to_check:
-    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Could not find the user")
+#   # check if you are current user:
+#   user_to_check = db.query(User).filter(User.username == current_user.username).first()
+#   if not user_to_check:
+#     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Could not find the user")
 
-  session = db.query(Session).filter(Session.user_id == user_to_check.id)
+#   session = db.query(Session).filter(Session.user_id == user_to_check.id)
 
-  if not session.all():
-    raise HTTPException(status_code = status.HTTP_404_NOT_FOUND, detail=f"This user has no workouts")
+#   if not session.all():
+#     raise HTTPException(status_code = status.HTTP_404_NOT_FOUND, detail=f"This user has no workouts")
 
-  user = db.query(User).filter(User.id == Session.user_id).first()
-  workouts = db.query(Workout).filter(Workout.id == Session.workout_id).all()
+#   user = db.query(User).filter(User.id == Session.user_id).first()
+#   workouts = db.query(Workout).filter(Workout.id == Session.workout_id).all()
 
-  return {
-    "user" : user,
-    "workouts" : workouts
-  }
+#   return {
+#     "user" : user,
+#     "workouts" : workouts
+#   }
 
 # def get_one(id: int, db: Session):
 #   exercise = db.query(Exercise).filter(Exercise.id == id).first()

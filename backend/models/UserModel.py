@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, Text, ForeignKey, Boolean, DateTime
 import datetime
 from sqlalchemy.orm import relationship
-from .SessionModel import Session
+# from .SessionModel import Session
 from database import Base
 # from .FavoriteMinistriesModel import FavoriteMinistries
 
@@ -20,6 +20,6 @@ class User(Base):
   created_at = Column(DateTime, default=datetime.datetime.utcnow)
   updated_at = Column(DateTime, default=datetime.datetime.utcnow)
 
-  session = relationship("Session", secondary=Session.__tablename__, back_populates="user")
+  # session = relationship("Session", secondary=Session.__tablename__, back_populates="user")
   # ministry = relationship("Ministry" , secondary=FavoriteMinistries.__tablename__, back_populates="user")
   # ministry = relationship("Ministry" , secondary=FavoriteMinistries.__tablename__, back_populates="user")

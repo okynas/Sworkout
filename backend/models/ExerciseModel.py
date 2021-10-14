@@ -14,4 +14,4 @@ class Exercise(Base):
   created_at = Column(DateTime, default=datetime.datetime.utcnow)
   updated_at = Column(DateTime, default=datetime.datetime.utcnow)
 
-  workout = relationship("Workout", back_populates="exercise")
+  # workout = relationship("Workout", back_populates="exercise")

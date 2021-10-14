@@ -17,8 +17,6 @@
       "reset_code": "str",
       "expires_in" : "datetime"
     },
-
-
     "exercise": {
       "id": "int",
       "name" : "str",
@@ -36,17 +34,53 @@
       "id": "int",
       "date": "datetime",
       "duration": "int",
-      "workouts": [
-        {
-          "workout_id": "int"
-        }
-      ],
+      "workout_id": "int",
       "user_id": "int"
     }
   },
   "data": {
-    "user":[],
-    "recovery" :[],
-    "workout" : []
+    "user":[
+      {
+        "id": 1,
+        "name": "stian",
+        "created_at": "today",
+        "upadted_at": "today",
+        "workouts": [
+          {
+            "id": 1,
+            "date": "14.10.21",
+            "time": "11:00",
+            "created_at": "today",
+            "upadted_at": "today",
+            "exercises": [
+              {
+                "id": 1,
+                "name": "Benchpress",
+                "set": 4,
+                "reps": 12,
+                "weight": 100,
+                "created_at": "today",
+                "upadted_at": "today"
+              },
+              {
+                "id": 2,
+                "name": "Legpress",
+                "set": 4,
+                "reps": 10,
+                "weight": 210,
+                "created_at": "today",
+                "upadted_at": "today"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "herman",
+        "sessions": []
+      }
+    ],
+    "recovery" :[]
   }
 }

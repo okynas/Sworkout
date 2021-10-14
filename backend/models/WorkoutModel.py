@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
 import datetime
-from .SessionModel import Session
+# from .SessionModel import Session
 
 from database import Base
 
@@ -16,8 +16,8 @@ class Workout(Base):
   created_at = Column(DateTime, default=datetime.datetime.utcnow)
   updated_at = Column(DateTime, default=datetime.datetime.utcnow)
 
-  exercise_id = Column(Integer, ForeignKey("exercise.id"), nullable=False)
-  exercise = relationship("Exercise", back_populates="workout")
+  # exercise_id = Column(Integer, ForeignKey("exercise.id"), nullable=False)
+  # exercise = relationship("Exercise", back_populates="workout")
 
   # session = relationship("Session", back_populates="workout")
-  session = relationship("Session", secondary=Session.__tablename__, back_populates="workout")
+  # session = relationship("Session", secondary=Session.__tablename__, back_populates="workout")
