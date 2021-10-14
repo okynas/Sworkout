@@ -22,16 +22,71 @@ CREATE TABLE IF NOT EXISTS `workout` (
 
 
 CREATE TABLE IF NOT EXISTS `session` (
-  `id` INTEGER AUTO_INCREMENT,
-  `duration` INTEGER,
-  `created_at` DateTime NOT NULL,
-  `updated_at` DateTime NOT NULL,
-  `workout_id` INTEGER NOT NULL,
-  `user_id` INTEGER NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `duration` INT(3) NOT NULL,
+  `workout_id` INT(11) NULL,
+  `user_id` INT(11) NOT NULL,
+  `created_at` DATETIME NOT NULL,
+  `updated_at` DATETIME NOT NULL,
   PRIMARY KEY (`id`),
-  FOREIGN KEY (`workout_id`) REFERENCES workout(id),
-  FOREIGN KEY (`user_id`) REFERENCES user(id)
-) ENGINE=InnoDB;
+  INDEX `fk_Session_workout_idx` (`workout_id` ASC) VISIBLE,
+  INDEX `fk_Session_user1_idx` (`user_id` ASC) VISIBLE,
+  CONSTRAINT `fk_Session_workout`
+    FOREIGN KEY (`workout_id`)
+    REFERENCES `workout` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Session_user1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `session_v2` (
+  `duration` INT(3) NOT NULL,
+  `workout_id` INT(11) NULL,
+  `user_id` INT(11) NOT NULL,
+  `workout_date` DATETIME NOT NULL,
+  `created_at` DATETIME NOT NULL,
+  `updated_at` DATETIME NOT NULL,
+  PRIMARY KEY (`workout_date`, `user_id` ),
+  INDEX `fk_Session_workout_idx_v2` (`workout_id` ASC) VISIBLE,
+  INDEX `fk_Session_user1_idx_v2` (`user_id` ASC) VISIBLE,
+  CONSTRAINT `fk_Session_workout_v2`
+    FOREIGN KEY (`workout_id`)
+    REFERENCES `workout` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Session_user1_v2`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `session_v3` (
+  `duration` INT(3) NOT NULL,
+  `workout_id` INT(11) NOT NULL,
+  `user_id` INT(11) NOT NULL,
+  `workout_date` DATE NOT NULL,
+  `workout_time` TIME NOT NULL,
+  `created_at` DATETIME NOT NULL,
+  `updated_at` DATETIME NOT NULL,
+  PRIMARY KEY (`workout_id`, `workout_date`, `user_id`, `workout_time`),
+  INDEX `fk_Session_workout_idx_v3` (`workout_id` ASC) VISIBLE,
+  INDEX `fk_Session_user1_idx_v3` (`user_id` ASC) VISIBLE,
+  CONSTRAINT `fk_Session_workout_v3`
+    FOREIGN KEY (`workout_id`)
+    REFERENCES `workout` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Session_user1_v3`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `user` (
   `id` INTEGER AUTO_INCREMENT,
@@ -90,3 +145,9 @@ values (1, 10, 3, 3, NOW(), NOW(), 1);
 
 insert ignore into `workout_has_user` (`workout_id`, `user_id`, `created_at`, `updated_at`, `duration`)
 values(1, 1, NOW(), NOW(), 100);
+
+insert ignore into `session_v2` (`workout_id`, `user_id`, `created_at`, `updated_at`, `duration`, `workout_date`)
+values(1, 1, NOW(), NOW(), 100, NOW());
+
+insert ignore into `session_v3` (`workout_id`, `user_id`, `created_at`, `updated_at`, `duration`, `workout_date`, `workout_time`)
+values(1, 1, NOW(), NOW(), 100, "2021-10-14", "20:00:00");
