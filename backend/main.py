@@ -16,7 +16,7 @@ app = FastAPI(
 
 Base.metadata.create_all(engine)
 
-# app.include_router(session.router)
+app.include_router(session.router)
 app.include_router(workout.router)
 app.include_router(exercise.router)
 app.include_router(users.router)

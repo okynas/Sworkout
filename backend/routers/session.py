@@ -14,9 +14,9 @@ router = APIRouter(
 get_db = database.get_db
 
 # get all
-# @router.get("/") #, response_model = List[SessionView])
-# def show_all(db: Session = Depends(get_db), get_current_user: UserView = Depends(get_current_user)):
-#   return SessionRepository.get_all(db, get_current_user)
+@router.get("/", response_model = List[SessionView])
+def show_all(db: Session = Depends(get_db), get_current_user: UserView = Depends(get_current_user)):
+  return SessionRepository.get_all(db, get_current_user)
 
 # @router.get("/{id}", response_model = ExerciseView)
 # def show_one_exercise(id: int, db: Session = Depends(get_db)):

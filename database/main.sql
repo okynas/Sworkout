@@ -46,11 +46,13 @@ CREATE TABLE IF NOT EXISTS `recovery` (
 CREATE TABLE IF NOT EXISTS `session` (
   `workout_id` INT(11) NOT NULL,
   `exercise_id` INT(11) NOT NULL,
-  `workout_date` DATE NULL,
+  `workout_date` DATE NOT NULL,
   `workout_time` TIME NULL,
-  PRIMARY KEY (`workout_id`, `exercise_id`),
+  `user_id` INT(11) NOT NULL,
+  PRIMARY KEY (`workout_id`, `exercise_id`, `user_id` , `workout_date`),
   INDEX `fk_session1_exercise_idx` (`exercise_id` ASC) VISIBLE,
   INDEX `fk_session1_workout_idx` (`workout_id` ASC) VISIBLE,
+  INDEX `fk_session1_user_idx` (`user_id` ASC) VISIBLE,
   CONSTRAINT `fk_session1_workout`
     FOREIGN KEY (`workout_id`)
     REFERENCES `workout` (`id`)
@@ -60,28 +62,33 @@ CREATE TABLE IF NOT EXISTS `session` (
     FOREIGN KEY (`exercise_id`)
     REFERENCES `exercise` (`id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
-CREATE TABLE IF NOT EXISTS `session_has_user` (
-  `session_workout_id` INT(11) NOT NULL,
-  `session_exercise_id` INT(11) NOT NULL,
-  `user_id` INT(11) NOT NULL,
-  PRIMARY KEY (`session_workout_id`, `session_exercise_id`, `user_id`),
-  INDEX `fk_session_has_user_user1_idx` (`user_id` ASC) VISIBLE,
-  INDEX `fk_session_has_user_session1_idx` (`session_workout_id` ASC, `session_exercise_id` ASC) VISIBLE,
-  CONSTRAINT `fk_session_has_user_session1`
-    FOREIGN KEY (`session_workout_id` , `session_exercise_id`)
-    REFERENCES `session` (`workout_id` , `exercise_id`)
-    ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_session_has_user_user1`
+  CONSTRAINT `fk_session1_user_idx`
     FOREIGN KEY (`user_id`)
-    REFERENCES `sworkout`.`user` (`id`)
+    REFERENCES `user` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
+
+
+-- CREATE TABLE IF NOT EXISTS `session_has_user` (
+--   `workout_id` INT(11) NOT NULL,
+--   `exercise_id` INT(11) NOT NULL,
+--   `user_id` INT(11) NOT NULL,
+--   PRIMARY KEY (`session_workout_id`, `session_exercise_id`, `user_id`),
+--   INDEX `fk_session_has_user_user1_idx` (`user_id` ASC) VISIBLE,
+--   INDEX `fk_session_has_user_session1_idx` (`session_workout_id` ASC, `session_exercise_id` ASC) VISIBLE,
+--   CONSTRAINT `fk_session_has_user_session1`
+--     FOREIGN KEY (`session_workout_id` , `session_exercise_id`)
+--     REFERENCES `session` (`workout_id` , `exercise_id`)
+--     ON DELETE NO ACTION
+--     ON UPDATE NO ACTION,
+--   CONSTRAINT `fk_session_has_user_user1`
+--     FOREIGN KEY (`user_id`)
+--     REFERENCES `sworkout`.`user` (`id`)
+--     ON DELETE NO ACTION
+--     ON UPDATE NO ACTION)
+-- ENGINE = InnoDB;
 
 -- TEST DATA: USER WITH USERNAME: admin AND PASSWORD: admin
 INSERT IGNORE INTO `user` (`username`,`first_name`,`last_name`,`email`,`password`,`is_admin`,`is_confirmed`,`created_at`,`updated_at`)
@@ -93,8 +100,8 @@ values (1, "Benchpress", "", 3, NOW(), NOW());
 insert ignore into `workout`(`id`, `repetition`, `set`, `weight`, `created_at`, `updated_at`)
 values (1, 10, 3, 3, NOW(), NOW());
 
-insert ignore into `session` (`workout_id`, `exercise_id`, `workout_date`, `workout_time`)
-values(1, 1, NOW(), NOW());
+insert ignore into `session` (`workout_id`, `exercise_id`, `workout_date`, `workout_time`, `user_id`)
+values(1, 1, NOW(), NOW(), 2);
 
-insert ignore into `session_has_user`(`session_workout_id`, `session_exercise_id`, `user_id`)
-values (1,1,1);
+-- insert ignore into `session_has_user`(`workout_id`, `exercise_id`, `user_id`)
+-- values (1,1,1);

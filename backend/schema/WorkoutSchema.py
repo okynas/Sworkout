@@ -9,15 +9,15 @@ class WorkoutBase(BaseModel):
   weight: Optional[int] = None
 
 class WorkoutCreate(WorkoutBase):
-  # exercise_id: int
+  exercise_id: int
   pass
 
 class WorkoutUpdate(WorkoutBase):
-  # exercise_id: int
+  exercise_id: int
   pass
 class WorkoutView(WorkoutBase):
   id: int
-  # exercise : ExerciseView = None
+  exercise : ExerciseView = None
 
   class Config():
     orm_mode = True

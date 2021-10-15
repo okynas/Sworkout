@@ -16,8 +16,9 @@ class Workout(Base):
   created_at = Column(DateTime, default=datetime.datetime.utcnow)
   updated_at = Column(DateTime, default=datetime.datetime.utcnow)
 
-  # exercise_id = Column(Integer, ForeignKey("exercise.id"), nullable=False)
-  # exercise = relationship("Exercise", back_populates="workout")
+  session = relationship("Session", back_populates="workout")
 
-  # session = relationship("Session", back_populates="workout")
-  # session = relationship("Session", secondary=Session.__tablename__, back_populates="workout")
+  exercise_id = Column(Integer, ForeignKey("exercise.id"), nullable=False)
+  exercise = relationship("Exercise", back_populates="workout")
+
+  # session_has_user = relationship("SessionHasUser", back_populates="workout")
