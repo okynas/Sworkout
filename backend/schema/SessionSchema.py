@@ -1,17 +1,19 @@
 from typing import Optional, List
 from pydantic import BaseModel
-from datetime import datetime
+from datetime import date, datetime, time
 
 from .UserSchema import UserView
 from .WorkoutSchema import WorkoutView
 
 class SessionBase(BaseModel):
-  # duration: int
-  pass
+  workout_date: date
+  workout_time: time
 
-class SessionCreateOrUpdate(SessionBase):
-  # workout_id : int
-  pass
+class SessionCreate(SessionBase):
+  workout_id : int
+
+class SessionUpdate(SessionBase):
+  workout_id : Optional[int] = None
 
 class SessionView(SessionBase):
   # id: int
