@@ -1,7 +1,7 @@
 <br/>
 <p align="center">
   <a href="https://github.com/okynas/Docker-Fastapi-test">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+    <img src="logo.png" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">Docker FastApi Test</h3>
@@ -43,7 +43,7 @@ A description...
 
 ## Built With
 
-Built with docker, fastapi, mysql and ...
+Built with docker, fastapi, mysql, react, ...
 
 ## Getting Started
 
@@ -57,7 +57,7 @@ This is an example of how to list things you need to use the software and how to
 * npm
 
 ```sh
-npm install npm@latest -g
+npm install
 ```
 
 ### Installation
@@ -112,7 +112,7 @@ Distributed under the MIT License. See [LICENSE](https://github.com/okynas/Docke
 
 ## Authors
 
-* **OkYNaS** - *Comp Sci Student* - [OkYNaS](https://github.com/okynas/) - **
+* **OkYNaS** - *Computer Science Student* - [OkYNaS](https://github.com/okynas/) - **
 
 ## Acknowledgements
 

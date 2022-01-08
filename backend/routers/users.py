@@ -7,22 +7,25 @@ from sqlalchemy.orm import Session
 from repository import UserRepository
 
 router = APIRouter(
-  prefix = "/users",
-  tags = ['Users']
+    prefix="/users",
+    tags=['Users']
 )
 
 get_db = database.get_db
 
-# get all
-@router.get("/" , response_model = List[UserView])
-def show_all(db: Session = Depends(get_db) ): #, get_currrent_user: UserView = Depends(get_current_user)):
-  return UserRepository.get_all(db)
 
-@router.get("/{id}" ) #, response_model = UserView)
-def show_one(id: int, db: Session = Depends(get_db) ): #, get_current_user: UserView = Depends(get_current_user)):
-  return UserRepository.get_one_user(id, db)
+# get all
+@router.get("/", response_model=List[UserView])
+def show_all(db: Session = Depends(get_db)):  # , get_currrent_user: UserView = Depends(get_current_user)):
+    return UserRepository.get_all(db)
+
+
+@router.get("/{id}")  # , response_model = UserView)
+def show_one(id: int, db: Session = Depends(get_db)):  # , get_current_user: UserView = Depends(get_current_user)):
+    return UserRepository.get_one_user(id, db)
+
 
 # delete
-@router.delete("/me", status_code = status.HTTP_204_NO_CONTENT)
+@router.delete("/me", status_code=status.HTTP_204_NO_CONTENT)
 def delete(db: Session = Depends(get_db), get_current_user: UserView = Depends(get_current_user)):
-  return UserRepository.destroy(get_current_user, db)
+    return UserRepository.destroy(get_current_user, db)

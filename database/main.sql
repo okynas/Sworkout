@@ -25,6 +25,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `first_name` VARCHAR(20) not null,
   `last_name` VARCHAR(20) not null,
   `email` VARCHAR(120) unique not null,
+  `phone` INTEGER(8) unique not null,
   `password` VARCHAR(255) not null,
   `is_admin` BOOLEAN not null,
   `is_confirmed` BOOLEAN not null,
@@ -90,9 +91,9 @@ ENGINE = InnoDB;
 --     ON UPDATE NO ACTION)
 -- ENGINE = InnoDB;
 
--- TEST DATA: USER WITH USERNAME: admin AND PASSWORD: admin
-INSERT IGNORE INTO `user` (`username`,`first_name`,`last_name`,`email`,`password`,`is_admin`,`is_confirmed`,`created_at`,`updated_at`)
-VALUES ("admin", "admin", "admin", "admin@okynas.com", "$2b$12$yBablCOZRNlmU0F6sUdAIOIxRS3jj1Xl../9OSQTEOCOM5a9Cxj9y", 0, 0, NOW(), NOW());
+-- TEST DATA: USER WITH USERNAME: admin AND PASSWORD: Administrat0r!
+INSERT IGNORE INTO `user` (`username`,`first_name`,`last_name`,`email`, `phone`, `password`,`is_admin`,`is_confirmed`,`created_at`,`updated_at`)
+VALUES ("admin", "admin", "admin", "admin@okynas.com", 90089885, "$2b$12$jTMqgw8bRpa4dD87vnLO7uRaUnU1fdQq3HZD9U9GE6X9ZzI.2tnoi", 0, 0, NOW(), NOW());
 
 insert ignore into `exercise`(`id`, `name`, `image`, `difficulty`, `created_at`, `updated_at`)
 values (1, "Benchpress", "", 3, NOW(), NOW());

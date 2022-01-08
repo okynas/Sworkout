@@ -1,6 +1,6 @@
 from database import Base
 from typing import Optional
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel
 from datetime import datetime
 
 class Authentication(BaseModel):
@@ -15,7 +15,7 @@ class TokenData(BaseModel):
   username: Optional[str] = None
 
 class ForgotPassword(BaseModel):
-  email: EmailStr
+  email: str
 
 class Recovery(BaseModel):
   email: str

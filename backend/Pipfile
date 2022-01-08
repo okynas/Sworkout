@@ -1,0 +1,34 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+fastapi = "*"
+uvicorn = "*"
+jinja2 = "*"
+requests = "*"
+atomicwrites = "*"
+python-multipart = "*"
+python-dotenv = "*"
+sqlalchemy = "*"
+passlib = "*"
+bcrypt = "*"
+python-jose = {extras = ["cryptography"], version = "*"}
+fastapi-mail = "*"
+mysqlclient = "*"
+pydantic = {extras = ["email"], version = "*"}
+social-auth-core = {extras = ["openidconnect"], version = "*"}
+pyjwt = {extras = ["crypto"], version = "*"}
+jwt = "*"
+pytest = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.10.1"
+
+[scripts]
+app = "python -m uvicorn main:app --host 0.0.0.0 --port 5000"
+devmode = "python -m uvicorn main:app --host 0.0.0.0 --port 5000 --reload"
+tests = "python -W ignore:warnings -m unittest -v"

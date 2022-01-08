@@ -9,5 +9,14 @@ python-jose>=3.2.0,<=3.3.0
 python-multipart>=0.0.4,<=0.0.5
 fastapi-mail>=1.0.0,<=1.0.1
 mysqlclient>=2.0.3
+python-dotenv
+sqlalchemy
+passlib
+bcrypt
+python-jose
+python-multipart
+fastapi-mail
+mysqlclient
+PyJWT
 
 # python-dotenv sqlalchemy passlib bcrypt python-jose python-multipart fastapi-mail mysqlclient

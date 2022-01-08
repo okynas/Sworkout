@@ -1,118 +1,127 @@
 from sqlalchemy.orm import Session
 from sqlalchemy.sql.expression import true
-from config.middleware import validate_email, verify_password, create_access_token, hash_password, create_recovery_key, send_recovery_mail
+from config.middleware import validate_email, verify_password, create_access_token, hash_password, create_recovery_key, \
+    send_recovery_mail
 from models import User, Recovery
 from schema import UserCreate, ForgotPassword, ResetPassword
 from fastapi import HTTPException, status
 import datetime
 
+
 # get one
 def get_one(db: Session, currentUser: User):
-  user = db.query(User).filter(User.username == currentUser.username).first()
+    user = db.query(User).filter(User.username == currentUser.username).first()
 
-  if not user:
-    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Could not find your profile")
+    if not user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Could not find your profile")
 
-  return user
+    return user
+
 
 def login(db: Session, request):
-  user = db.query(User).filter(User.username == request.username).first()
-  if not user:
-    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Invalid Credentials")
-  if not verify_password(request.password, user.password):
-    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Incorrect password")
+    user = db.query(User).filter(User.username == request.username).first()
+    if not user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Invalid Credentials")
+    if not verify_password(request.password, user.password):
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Incorrect password")
 
+    access_token = create_access_token(data={"sub": user.username}, expires_delta=30)
+    return {"access_token": access_token, "token_type": "bearer"}
 
-  access_token = create_access_token(data={"sub": user.username}, expires_delta=30)
-  return {"access_token": access_token, "token_type": "bearer"}
 
 def create(request: UserCreate, db: Session):
-  if not request.username:
-    raise HTTPException(status_code = status.HTTP_422_UNPROCESSABLE_ENTITY, detail = f"Username is required" )
-  if not validate_email(request.email):
-    raise HTTPException(status_code = status.HTTP_406_NOT_ACCEPTABLE , detail=f"Email is not valid")
+    if not request.username:
+        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=f"Username is required")
+    if not validate_email(request.email):
+        raise HTTPException(status_code=status.HTTP_406_NOT_ACCEPTABLE, detail=f"Email is not valid")
 
-  user_exist = db.query(User).filter(User.username == request.username)
+    user_exist = db.query(User).filter(User.username == request.username)
 
-  if user_exist.first():
-    raise HTTPException(status_code = status.HTTP_404_NOT_FOUND, detail=f"Could not create user with username: {request.username}, it already exists")
+    if user_exist.first():
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f"Could not create user with username: {request.username}, it already exists")
 
-  hashed_password = hash_password(request.password)
+    hashed_password = hash_password(request.password)
 
-  new_user = User(
-    first_name = request.first_name,
-    last_name = request.last_name,
-    email = request.email,
-    password = hashed_password,
-    username = request.username,
-    is_admin = False,
-    is_confirmed = False,
-    created_at = datetime.datetime.utcnow(),
-    updated_at = datetime.datetime.utcnow()
-  )
+    new_user = User(
+        first_name=request.first_name,
+        last_name=request.last_name,
+        email=request.email,
+        password=hashed_password,
+        username=request.username,
+        phone=request.phone,
+        is_admin=False,
+        is_confirmed=False,
+        created_at=datetime.datetime.utcnow(),
+        updated_at=datetime.datetime.utcnow()
+    )
 
-  db.add(new_user)
-  db.commit()
-  db.refresh(new_user)
-  return new_user
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
+    return new_user
+
 
 def forgot_password(request: ForgotPassword, db: Session):
-  # checks if user exists
-  user = db.query(User).filter(User.email == request.email).first()
-  if not user:
-    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Could not find user")
+    # checks if user exists
+    user = db.query(User).filter(User.email == request.email).first()
+    if not user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Could not find user")
 
-  # generating recovery token
-  reset_token_to_user = create_recovery_key()
+    # generating recovery token
+    reset_token_to_user = create_recovery_key()
 
-  new_recovery = Recovery(
-    email = request.email,
-    reset_code = reset_token_to_user,
-    expires_in = datetime.datetime.utcnow()
-  )
+    new_recovery = Recovery(
+        email=request.email,
+        reset_code=reset_token_to_user,
+        expires_in=datetime.datetime.utcnow()
+    )
 
-  db.add(new_recovery)
-  db.commit()
-  db.refresh(new_recovery)
+    db.add(new_recovery)
+    db.commit()
+    db.refresh(new_recovery)
 
-  # -----------------
-  # SEND EMAIL
-  # send_recovery_mail(request.email, reset_token_to_user)
-  # -----------------
+    # -----------------
+    # SEND EMAIL
+    # send_recovery_mail(request.email, reset_token_to_user)
+    # -----------------
 
-  return {
-    "status_code" : status.HTTP_202_ACCEPTED ,
-    "detail" : "We have sent en email with instructions to reset your password",
-    "reset_code" : reset_token_to_user # <<=== remove this, if email is working
-  }
+    return {
+        "status_code": status.HTTP_202_ACCEPTED,
+        "detail": "We have sent en email with instructions to reset your password",
+        "reset_code": reset_token_to_user  # <<=== remove this, if email is working
+    }
+
 
 def reset_password(request: ResetPassword, db: Session):
-  # get token and check if its valid
-  token_to_verify = db.query(Recovery).filter(Recovery.reset_code == request.reset_token and Recovery.expires_in >= datetime.datetime.utcnow()).first()
-  if not token_to_verify:
-    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Reset token has expired. Please request new reset token.")
+    # get token and check if its valid
+    token_to_verify = db.query(Recovery).filter(
+        Recovery.reset_code == request.reset_token and Recovery.expires_in >= datetime.datetime.utcnow()).first()
+    if not token_to_verify:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f"Reset token has expired. Please request new reset token.")
 
-  # find user email assosiated with the reset token
-  user_to_update = db.query(User).filter(User.email == token_to_verify.email)
+    # find user email assosiated with the reset token
+    user_to_update = db.query(User).filter(User.email == token_to_verify.email)
 
-  if not user_to_update.first():
-    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Could not find user")
+    if not user_to_update.first():
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Could not find user")
 
-  if request.new_password != request.confirm_password:
-    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Passwords does not match")
+    if request.new_password != request.confirm_password:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Passwords does not match")
 
-  # updating the password
-  user_to_update.update({
-    "password": hash_password(request.new_password),
-    "updated_at": datetime.datetime.utcnow()
-  })
-  db.delete(token_to_verify)
-  db.commit()
+    # updating the password
+    user_to_update.update({
+        "password": hash_password(request.new_password),
+        "updated_at": datetime.datetime.utcnow()
+    })
+    db.delete(token_to_verify)
+    db.commit()
 
-  return {
-    "status_code" : status.HTTP_202_ACCEPTED ,
-    "detail" : "Successfully updated user"
-  }
+    return {
+        "status_code": status.HTTP_202_ACCEPTED,
+        "detail": "Successfully updated user"
+    }
 
 # def logout(db: Session, currentUser: User):
 #   try:

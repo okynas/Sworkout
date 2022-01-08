@@ -1,45 +1,51 @@
 version: "3.9"
+
+x-common-variables: &common-variables
+  TOKEN_SECRET: a8db712c5129e52c669d8599d982f071569b425519c638dcfd4ea87f8ba769232336cda2ee4bcd5d13f77b7cfb8d73d01ba0
+  # COOKIE_SECRET: dette_er_min_lange_hemmelighet
+  DEBUG: 1
+  # EMAIL SETTINGS
+  # MAIL_USERNAME: test
+  # MAIL_PASSWORD: test
+  # MAIL_FROM: test
+  # MAIL_PORT: test
+  # MAIL_SERVER: test
+  # MAIL_TLS: test
+  # MAIL_SSL: test
+  # USE_CREDENTIALS: test
+
+
 services:
   # FASTAPI BACKEND
   backend:
-    container_name: fastapi-backend
+    container_name: sworkout-fastapi-backend
     build: ./backend
     working_dir: /code
-    command: uvicorn main:app --host 0.0.0.0 --port 5000 --reload
     environment:
-      DEBUG: 1
       FASTAPI_PROJECT_NAME: Swift Workout
       FASTAPI_PROJECT_VERSION: 1.0.0
       FASTAPI_DESCRIPTION: "Normal description"
-      PROJECT_STATUS: Development
+      FASTAPI_PROJECT_STATUS: Development
       FASTAPI_AUTHENTICATION_SECRET_KEY: d15905d2c33588d2264167c3f9c190a1
       FASTAPI_AUTHENTICATION_ALGORITHM: HS256
       FASTAPI_AUTHENTICATION_TOKEN_EXPIRE_MINUTES: 30
       FASTAPI_RECOVERY_KEY_EXPIRE_MINUTES : 43200
       FASTAPI_RECOVERY_SECRET_KEY: e66543ab68102d3a2cacd650168d8102
       FASTAPI_RECOVERY_LENGTH: 24
-
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_USER: admin
-      MYSQL_PASSWORD: admin
-      MYSQL_DATABASE: sworkout
-      MYSQL_HOST: mysql
-      # # EMAIL SETTINGS
-      # MAIL_USERNAME
-      # MAIL_PASSWORD
-      # MAIL_FROM
-      # MAIL_PORT
-      # MAIL_SERVER
-      # MAIL_TLS
-      # MAIL_SSL
-      # USE_CREDENTIALS
+      FASTAPI_MYSQL_ROOT_PASSWORD: root
+      FASTAPI_MYSQL_USER: admin
+      FASTAPI_MYSQL_PASSWORD: admin
+      FASTAPI_MYSQL_DATABASE: sworkout
+      FASTAPI_MYSQL_HOST: mysql
+      FASTAPI_DOCS_URL: /docs
     volumes:
       - ./backend:/code
     ports:
-      - "4001:5000"
+      - "5000:5000"
     restart: on-failure
   # db
   mysql:
+    container_name: sworkout-mysql-db
     build: ./database
     restart: unless-stopped
     environment:
@@ -49,18 +55,20 @@ services:
       MYSQL_DATABASE: sworkout
       MYSQL_HOST: mysql
     ports:
-      - 3306:3306
+      - 3307:3307
     volumes:
       - ./database/:/docker-entrypoint-initdb.d/
   # adminer
   adminer:
+    container_name: sworkout-adminer-database_manager
     depends_on:
       - mysql
     image: adminer
     restart: always
     ports:
       - 8080:8080
-  nextjs-ui:
+  frontend:
+    container_name: sworkout-react-frontend
     build:
       context: ./frontend
     ports:
