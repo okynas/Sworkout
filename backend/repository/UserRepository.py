@@ -16,6 +16,13 @@ def get_one_user(id: int, db: Session):
     return user
 
 
+def get_one_user_by_username(username: str, db: Session):
+    user = db.query(User).filter(User.username == username).first()
+    if not user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Could not find the user, by this username")
+    return user
+
+
 # get all
 def get_all(db: Session):
     users = db.query(User).all()

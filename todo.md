@@ -2,7 +2,7 @@
 Project Description
 
 ### Backend
-- [x] Exercise ~2 #model @okynas 2021-10-13   
+- [x] Exercise ~2 #model @okynas 2021-10-13
 - [x] Workout ~2 #model @okynas 2021-10-13
 - [] Session ~2 #model @okynas 2021-10-13
 - [x] User #model @okynas 2021-10-13
@@ -18,11 +18,11 @@ Project Description
 
 ### Mail
 - [ ] Task title ~3d #type @okynas 2021-10-13
-  - [ ] Sub-task or description  
+  - [ ] Sub-task or description
 
 ### Template
 - [ ] Task title ~2 #type @okynas 2021-10-13
-  - [ ] Sub-task or description  
+  - [ ] Sub-task or description
 
 ### Completed Column ✓
-- [x] Completed task title  
+- [x] Completed task title

@@ -50,18 +50,17 @@ def create_access_token(data: dict, expires_delta: int):
 
 
 def verify_token(token: str, credentials_exception):
-    '''
-  Returning the username of the user, if password and the password hash is matching.
-  Returning the username assosiated with the jwt encoded data.
-  verify ("password", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.
-  eyJzdWIiOiJwYXNzd29yZCIsImV4cCI6MTYyMzc4Nzc1Nn0.
-  V82DuvIK64d-T5fCZuf7m2q9iM6r6tIM6QaGEv1NOnA")
-  => {username: test_username}
-  '''
+    """
+    Returning the username of the user, if password and the password hash is matching.
+    Returning the username assosiated with the jwt encoded data.
+    verify ("password", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.
+    eyJzdWIiOiJwYXNzd29yZCIsImV4cCI6MTYyMzc4Nzc1Nn0.
+    V82DuvIK64d-T5fCZuf7m2q9iM6r6tIM6QaGEv1NOnA")
+    => {username: test_username}
+    """
     try:
         payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
         username: str = payload.get("sub")
-
         if username is None:
             raise credentials_exception
         token_data = TokenData(username=username)
@@ -72,9 +71,9 @@ def verify_token(token: str, credentials_exception):
 
 
 def get_current_user(token: str = Depends(settings.OAUTH2_SCHEME)):
-    '''
-  returning the validated user, if not validated, return a 401 unauthorized error message.
-  '''
+    """
+    returning the validated user, if not validated, return a 401 unauthorized error message.
+    """
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",

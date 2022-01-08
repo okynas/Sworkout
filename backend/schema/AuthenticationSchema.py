@@ -1,31 +1,33 @@
-from database import Base
 from typing import Optional
 from pydantic import BaseModel
 from datetime import datetime
 
+
 class Authentication(BaseModel):
-  username: str
-  password: str
+    username: str
+    password: str
+
 
 class Token(BaseModel):
-  access_token: str
-  token_type: str
+    access_token: str
+    token_type: str
+
 
 class TokenData(BaseModel):
-  username: Optional[str] = None
+    username: Optional[str] = None
+
 
 class ForgotPassword(BaseModel):
-  email: str
+    email: str
+
 
 class Recovery(BaseModel):
-  email: str
-  reset_code : str
-  expires_in : datetime
+    email: str
+    reset_code: str
+    expires_in: datetime
 
-# class ResetPassword(BaseModel):
-#   reset_token: str
 
 class ResetPassword(BaseModel):
-  reset_token: str
-  new_password: str
-  confirm_password: str
+    reset_token: str
+    new_password: str
+    confirm_password: str

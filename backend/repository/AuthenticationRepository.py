@@ -5,6 +5,7 @@ from config.middleware import validate_email, verify_password, create_access_tok
 from models import User, Recovery
 from schema import UserCreate, ForgotPassword, ResetPassword
 from fastapi import HTTPException, status
+from fastapi.responses import JSONResponse
 import datetime
 
 
@@ -26,7 +27,10 @@ def login(db: Session, request):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Incorrect password")
 
     access_token = create_access_token(data={"sub": user.username}, expires_delta=30)
-    return {"access_token": access_token, "token_type": "bearer"}
+    content = {"access_token": access_token, "token_type": "bearer"}
+    response = JSONResponse(content=content)
+    response.set_cookie(key="Token", value=access_token)
+    return response
 
 
 def create(request: UserCreate, db: Session):
@@ -123,9 +127,17 @@ def reset_password(request: ResetPassword, db: Session):
         "detail": "Successfully updated user"
     }
 
-# def logout(db: Session, currentUser: User):
-#   try:
-#     access_token = create_access_token(data={"sub": currentUser.username}, expires_delta=0)
-#     return {"access_token": access_token, "token_type": "bearer"}
-#   except Exception:
-#     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"No token provided")
+
+def logout(db: Session, currentUser: User):
+    content = {"status": "Logout failed!"}
+    try:
+        user = db.query(User).filter(User.username == currentUser.username).first()
+        if not user:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Invalid Credentials")
+
+        access_token = create_access_token(data={"sub": currentUser.username}, expires_delta=0)
+        content = {"access_token": access_token, "token_type": "bearer", "status": "Logged out"}
+    except Exception:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"No token provided")
+    finally:
+        return JSONResponse(content=content)

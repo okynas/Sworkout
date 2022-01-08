@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS `workout` (
   `repetition` INTEGER,
   `set` INTEGER,
   `weight` INTEGER,
+  `done` BOOLEAN,
   `created_at` DateTime NOT NULL,
   `updated_at` DateTime NOT NULL,
   PRIMARY KEY (`id`)

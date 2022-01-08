@@ -1,20 +1,23 @@
-from typing import Optional, List
+from typing import Optional
 from pydantic import BaseModel
-from datetime import datetime
+
 
 class ExerciseBase(BaseModel):
-  name: Optional[str]
-  image : Optional[str]
-  difficulty: Optional[int]
+    name: Optional[str]
+    image: Optional[str]
+    difficulty: Optional[int]
+
 
 class ExerciseCreate(ExerciseBase):
-  name: str
+    name: str
+
 
 class ExerciseUpdate(ExerciseBase):
-  pass
+    pass
+
 
 class ExerciseView(ExerciseBase):
-  id: int
+    id: int
 
-  class Config():
-    orm_mode = True
+    class Config:
+        orm_mode = True

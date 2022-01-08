@@ -20,9 +20,14 @@ def show_all(db: Session = Depends(get_db)):  # , get_currrent_user: UserView = 
     return UserRepository.get_all(db)
 
 
-@router.get("/{id}")  # , response_model = UserView)
+@router.get("/id/{id}")  # , response_model = UserView)
 def show_one(id: int, db: Session = Depends(get_db)):  # , get_current_user: UserView = Depends(get_current_user)):
     return UserRepository.get_one_user(id, db)
+
+
+@router.get("/username/{username}")  # , response_model = UserView)
+def show_one_by_username(username: str, db: Session = Depends(get_db)):
+    return UserRepository.get_one_user_by_username(username, db)
 
 
 # delete
