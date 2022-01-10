@@ -52,24 +52,24 @@ CREATE TABLE IF NOT EXISTS `session` (
   `workout_time` TIME NULL,
   `user_id` INT(11) NOT NULL,
   PRIMARY KEY (`workout_id`, `exercise_id`, `user_id` , `workout_date`),
-  INDEX `fk_session1_exercise_idx` (`exercise_id` ASC) VISIBLE,
-  INDEX `fk_session1_workout_idx` (`workout_id` ASC) VISIBLE,
-  INDEX `fk_session1_user_idx` (`user_id` ASC) VISIBLE,
-  CONSTRAINT `fk_session1_workout`
-    FOREIGN KEY (`workout_id`)
-    REFERENCES `workout` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_session1_exercise`
-    FOREIGN KEY (`exercise_id`)
-    REFERENCES `exercise` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_session1_user_idx`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `user` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  -- INDEX `fk_session1_exercise_idx` (`exercise_id` ASC) VISIBLE,
+  -- INDEX `fk_session1_workout_idx` (`workout_id` ASC) VISIBLE,
+  -- INDEX `fk_session1_user_idx` (`user_id` ASC) VISIBLE,
+  -- CONSTRAINT `fk_session1_workout`
+  --   FOREIGN KEY (`workout_id`)
+  --   REFERENCES `workout` (`id`)
+  --   ON DELETE NO ACTION
+  --   ON UPDATE NO ACTION,
+  -- CONSTRAINT `fk_session1_exercise`
+  --   FOREIGN KEY (`exercise_id`)
+  --   REFERENCES `exercise` (`id`)
+  --   ON DELETE NO ACTION
+  --   ON UPDATE NO ACTION,
+  -- CONSTRAINT `fk_session1_user_idx`
+  --   FOREIGN KEY (`user_id`)
+  --   REFERENCES `user` (`id`)
+  --   ON DELETE NO ACTION
+  --   ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 

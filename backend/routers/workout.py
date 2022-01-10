@@ -25,7 +25,7 @@ def show_one_workout(id: int, db: Session = Depends(get_db)):
     return WorkoutRepository.get_one(id, db)
 
 
-@router.post("/", status_code=status.HTTP_201_CREATED, response_model=WorkoutView)
+@router.post("/", status_code=status.HTTP_201_CREATED) #, response_model=WorkoutView)
 def create_workout(request: WorkoutCreate,
                     db: Session = Depends(get_db)):  # , get_current_user: UserView = Depends(get_current_user)):
     return WorkoutRepository.create(request, db)

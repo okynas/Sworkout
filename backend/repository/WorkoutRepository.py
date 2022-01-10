@@ -32,12 +32,15 @@ def create(request: WorkoutCreate, db: Session):
     if not exercise.first():
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Exercise not found")
 
-    workout_find = db.query(Workout).filter(Workout.exercise_id == request.exercise_id).first()
-    if workout_find:
-        raise HTTPException(status_code=status.HTTP_409_CONFLICT,
-                            detail=f"Workout with exercise id {request.exercise_id} already exists")
+    #workout_find = db.query(Workout).filter(Workout.exercise_id == request.exercise_id).first()
+    #if workout_find:
+    #    raise HTTPException(status_code=status.HTTP_409_CONFLICT,
+                            #detail=f"Workout with exercise id {request.exercise_id} already exists")
+
+    #return exercise.first().name
 
     new_workout = Workout(
+        name=f'{request.set}-{request.repetition}-{exercise.first().name}',
         repetition=request.repetition,
         set=request.set,
         weight=request.weight,

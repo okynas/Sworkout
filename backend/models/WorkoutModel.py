@@ -10,6 +10,7 @@ class Workout(Base):
     __tablename__ = "workout"
 
     id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, unique=True, nullable=False)
     repetition = Column(Integer, unique=False, nullable=False)
     set = Column(Integer, unique=False, nullable=False)
     weight = Column(Integer, unique=False, nullable=False)

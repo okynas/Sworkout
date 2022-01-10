@@ -39,7 +39,6 @@ class WhenExercises(TestCase):
         )
 
     def tearDown(self) -> None:
-        # pass
         Base.metadata.drop_all(bind=engine)
 
     def test_get_all_exercises(self):

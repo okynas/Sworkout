@@ -16,8 +16,8 @@ class Session(Base):
     workout = relationship("Workout", back_populates="session")
     workout_id = Column(Integer, ForeignKey("workout.id"), nullable=False, primary_key=True)
 
-    exercise_id = Column(Integer, ForeignKey("exercise.id"), nullable=False)
-    exercise = relationship("Exercise", back_populates="session")
+    #exercise_id = Column(Integer, ForeignKey("exercise.id"), nullable=False)
+    #exercise = relationship("Exercise", back_populates="session")
 
     user_id = Column(Integer, ForeignKey("user.id"), nullable=False, primary_key=True)
     user = relationship("User", back_populates="session")

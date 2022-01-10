@@ -21,6 +21,7 @@ class WorkoutUpdate(WorkoutBase):
 class WorkoutView(WorkoutBase):
     id: int
     exercise: ExerciseView = None
+    name: str
 
     class Config():
         orm_mode = True
