@@ -13,6 +13,7 @@ class SessionBase(BaseModel):
 
 class SessionCreate(SessionBase):
     workout_id: int
+    user_id: int
 
 
 class SessionUpdate(SessionBase):

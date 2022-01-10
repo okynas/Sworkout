@@ -66,6 +66,9 @@ def verify_token(token: str, credentials_exception):
         token_data = TokenData(username=username)
     except NameError:
         raise credentials_exception
+    except jwt.ExpiredSignatureError:
+        print("WORKS?=")
+        return {'Details': 'Token Expired!'}
 
     return token_data
 
