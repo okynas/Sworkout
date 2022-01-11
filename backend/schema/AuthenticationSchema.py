@@ -1,5 +1,5 @@
 from typing import Optional
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 from datetime import datetime
 
 
@@ -22,7 +22,7 @@ class ForgotPassword(BaseModel):
 
 
 class Recovery(BaseModel):
-    email: str
+    email: str #EmailStr
     reset_code: str
     expires_in: datetime
 

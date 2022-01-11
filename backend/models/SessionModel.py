@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Date, Time
 from sqlalchemy.orm import relationship
-from datetime import date, datetime, time
+import datetime
 
 from database import Base
 
@@ -8,18 +8,20 @@ from database import Base
 class Session(Base):
     __tablename__ = "session"
 
-    workout_date = Column(Date, default=date.fromisoformat('2019-12-04'))
-    workout_time = Column(Time, default=time.fromisoformat('20:00:00'))
+    id = Column(Integer, primary_key=True, unique=True, nullable=False)
 
-    # LOCATION
+    workout_date = Column(Date, default=datetime.date)
+    workout_time = Column(String, default="11:00")
 
-    workout = relationship("Workout", back_populates="session")
-    workout_id = Column(Integer, ForeignKey("workout.id"), nullable=False, primary_key=True)
+    #Location
 
     #exercise_id = Column(Integer, ForeignKey("exercise.id"), nullable=False)
-    #exercise = relationship("Exercise", back_populates="session")
+    #exercise = relationship("Exercise", back_populates="workout")
 
-    user_id = Column(Integer, ForeignKey("user.id"), nullable=False, primary_key=True)
+    workout = relationship("Workout", back_populates="session")
+    workout_id = Column(Integer, ForeignKey("workout.id"), nullable=False)
+
+    user_id = Column(Integer, ForeignKey("user.id"), nullable=False)
     user = relationship("User", back_populates="session")
 
     # ministry_id = Column(Integer, ForeignKey("ministry.id"), nullable=False, primary_key=True)

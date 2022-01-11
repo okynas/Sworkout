@@ -67,6 +67,7 @@ def create(request: UserCreate, db: Session):
 
 
 def forgot_password(request: ForgotPassword, db: Session):
+
     # checks if user exists
     user = db.query(User).filter(User.email == request.email).first()
     if not user:

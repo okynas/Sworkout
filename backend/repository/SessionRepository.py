@@ -18,7 +18,7 @@ def get_all(db: Session, current_user: User):
     session = db.query(Session).filter(Session.user_id == user_to_check.id).all()
 
     if not session:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"This user has no workouts")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"This user has no sessions!")
 
     return session
 
@@ -53,14 +53,14 @@ def create(request: SessionCreate, db: Session, current_user: User):
 
     session_has_workout = db.query(Session).filter(Session.workout_id == workout_find.id).first()
     if session_has_workout:
-        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=f"Session already has a workout with that id")
+        pass
+        #raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=f"Session already has a workout with that id")
 
     new_session = Session(
         workout_id=request.workout_id,
         user_id=user_to_check.id,
-        exercise_id=workout_find.exercise_id,
-        workout_date=date.today(),
-        workout_time=datetime.utcnow()
+        workout_date=request.workout_date,
+        workout_time=request.workout_time
 
     )
     db.add(new_session)
@@ -69,34 +69,34 @@ def create(request: SessionCreate, db: Session, current_user: User):
     return new_session
 
 
-def update_one(workout_id: int, request: SessionUpdate, db: Session, current_user: User):
+def update_one(id: int, request: SessionUpdate, db: Session, current_user: User):
     user_to_check = db.query(User).filter(User.username == current_user.username).first()
     if not user_to_check:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Could not find the user")
 
     # does not change session, from one workout to another, keep the same workout id
     if not request.workout_id:
-        request.workout_id == workout_id
+        request.workout_id = id
 
-    session = db.query(Session).filter(Session.workout_id == workout_id)
+    session = db.query(Session).filter(Session.workout_id == id)
 
     if not session.first():
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Session with workout id: {id} not found")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Session with id: {id} not found")
 
     session.update({**request.dict(exclude_unset=True)})
     db.commit()
     return 'Updated successfully'
 
 
-def delete(workout_id: int, db: Session, current_user: User):
+def delete(id: int, db: Session, current_user: User):
     user_to_check = db.query(User).filter(User.username == current_user.username).first()
     if not user_to_check:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Could not find the user")
 
-    session = db.query(Session).filter(Session.workout_id == workout_id)
+    session = db.query(Session).filter(Session.workout_id == id)
     if not session.first():
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-                            detail=f"Session with workout with id: {id} not found")
+                            detail=f"Session with id: {id} not found")
 
     session.delete(synchronize_session=False)
     db.commit()

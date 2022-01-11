@@ -1,6 +1,6 @@
 from typing import Optional
 from pydantic import BaseModel
-from datetime import date, time
+from datetime import date, datetime, time
 
 from .UserSchema import UserView
 from .WorkoutSchema import WorkoutView
@@ -8,7 +8,7 @@ from .WorkoutSchema import WorkoutView
 
 class SessionBase(BaseModel):
     workout_date: date
-    workout_time: time
+    workout_time: str
 
 
 class SessionCreate(SessionBase):
@@ -21,7 +21,7 @@ class SessionUpdate(SessionBase):
 
 
 class SessionView(SessionBase):
-    # id: int
+    id: int
     workout: WorkoutView
     user: UserView = None
 
