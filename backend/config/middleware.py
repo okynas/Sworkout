@@ -9,6 +9,8 @@ from schema import TokenData
 from fastapi_mail import FastMail, MessageSchema, ConnectionConfig
 from typing import Optional
 
+from fastapi.templating import Jinja2Templates
+
 
 def hash_password(password_in_plain_text):
     '''
@@ -134,3 +136,6 @@ async def send_recovery_mail(recipient, recovery_token):
     fm = FastMail(email_config)
     await fm.send_message(message_to_send)
     return "Message sent!"
+
+def get_templates():
+    return Jinja2Templates(directory="templates")
