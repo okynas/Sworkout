@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<section class="section">
+    <div class="container">
+        <h1 class="title">SWorkout</h1>
+        <h2 class="subtitle">Working out smart!</h2>
+
+        <form method="post" action="/authentication/login">
+
+            <!-- USERNAME -->
+            <div class="field">
+              <label class="label">Username</label>
+              <div class="control has-icons-left has-icons-right">
+                <input class="input" type="text" placeholder="Text input" value="" name="username">
+                <span class="icon is-small is-left">
+                  <i class="fas fa-user"></i>
+                </span>
+              </div>
+            </div>
+
+            <!-- PASSWORD -->
+            <div class="field">
+              <label class="label">Password</label>
+              <div class="control has-icons-left has-icons-right">
+                <input class="input" type="password" placeholder="Email input" value="" name="password">
+                <span class="icon is-small is-left">
+                  <i class="fas fa-unlock-alt"></i>
+                </span>
+              </div>
+            </div>
+
+            <div class="field is-grouped">
+              <div class="control">
+                <button class="button is-link">Login</button>
+              </div>
+              <div class="control">
+                <button class="button is-link is-light">Cancel</button>
+              </div>
+            </div>
+        </form>
+
+    </div>
+</section>
+
+{% endblock %}

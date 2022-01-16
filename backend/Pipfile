@@ -23,6 +23,7 @@ pyjwt = {extras = ["crypto"], version = "*"}
 jwt = "*"
 pytest = "*"
 email-validator = "*"
+aiofiles = "*"
 
 [dev-packages]
 

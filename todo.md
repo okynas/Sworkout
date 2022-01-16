@@ -4,8 +4,10 @@ Project Description
 ### Backend
 - [x] Exercise ~2 #model @okynas 2021-10-13
 - [x] Workout ~2 #model @okynas 2021-10-13
-- [] Session ~2 #model @okynas 2021-10-13
+- [x] Session ~2 #model @okynas 2023-1-16
 - [x] User #model @okynas 2021-10-13
+- [] UPDATING backend post api entrypoints
+- [] add ResponseRedirect() function to post api , so that we dont return sensitive json objects
 
 ### Frontend
 - [ ] Initial ~0d #start @okynas 2021-mm-dd
@@ -15,14 +17,14 @@ Project Description
 ### Database
 - [] Session ~2 #model @okynas 2021-10-13
   - [] Change the hiearcy of Session, to be mmany-to-many relation (having multiple workouts)
+-[ ] Update SQL database files
 
 ### Mail
-- [ ] Task title ~3d #type @okynas 2021-10-13
-  - [ ] Sub-task or description
+- [ ] init
 
 ### Template
-- [ ] Task title ~2 #type @okynas 2021-10-13
-  - [ ] Sub-task or description
+- [x] init 2022-1-13
+- [ ] Sub-task or description
 
 ### Completed Column ✓
 - [x] Completed task title
