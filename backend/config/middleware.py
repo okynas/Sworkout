@@ -136,6 +136,3 @@ async def send_recovery_mail(recipient, recovery_token):
     fm = FastMail(email_config)
     await fm.send_message(message_to_send)
     return "Message sent!"
-
-def get_templates():
-    return Jinja2Templates(directory="templates")
