@@ -2,8 +2,8 @@ from datetime import datetime, timedelta
 import secrets
 import re
 from config.settings import settings
-# from jose import JWTError, jwt
-import jwt
+from jose import JWTError, jwt
+# import jwt
 from fastapi import Depends, HTTPException, status
 from schema import TokenData
 from fastapi_mail import FastMail, MessageSchema, ConnectionConfig

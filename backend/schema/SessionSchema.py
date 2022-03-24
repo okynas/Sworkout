@@ -8,7 +8,7 @@ from .WorkoutSchema import WorkoutView
 
 class SessionBase(BaseModel):
     workout_date: date
-    workout_time: str
+    #workout_time: datetime
 
 
 class SessionCreate(SessionBase):

@@ -2,10 +2,7 @@
 Project Description
 
 ### Backend
-- [x] Exercise ~2 #model @okynas 2021-10-13
-- [x] Workout ~2 #model @okynas 2021-10-13
-- [x] Session ~2 #model @okynas 2023-1-16
-- [x] User #model @okynas 2021-10-13
+- [] Changing Session and User routes
 - [] UPDATING backend post api entrypoints
 - [] add ResponseRedirect() function to post api , so that we dont return sensitive json objects
 

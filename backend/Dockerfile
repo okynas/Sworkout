@@ -7,5 +7,5 @@ ENV PYTHONUNBUFFERED 1
 COPY ./ /code
 COPY ./requirements.txt /code/requirements.txt
 RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
-CMD ['pip' 'install' 'sqlalchemy' 'passlib' 'bcrypt' 'python-jose' 'python-multipart' 'fastapi-mail']
+CMD ['pip' 'install']
 # CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80", "--reload"]

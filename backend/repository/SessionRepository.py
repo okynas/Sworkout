@@ -53,8 +53,7 @@ def create(request: SessionCreate, db: Session, current_user: User):
 
     session_has_workout = db.query(Session).filter(Session.workout_id == workout_find.id).first()
     if session_has_workout:
-        pass
-        #raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=f"Session already has a workout with that id")
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=f"Session already has a workout with that id")
 
     new_session = Session(
         workout_id=request.workout_id,

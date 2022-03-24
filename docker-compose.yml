@@ -39,6 +39,7 @@ services:
       FASTAPI_MYSQL_DATABASE: sworkout
       FASTAPI_MYSQL_HOST: mysql
       FASTAPI_DOCS_URL: /docs
+      FASTAPI_DOCKER: 1
     volumes:
       - ./backend:/code
     ports:

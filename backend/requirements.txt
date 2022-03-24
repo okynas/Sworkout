@@ -18,5 +18,6 @@ python-multipart
 fastapi-mail
 mysqlclient
 PyJWT
+jwt
 
 # python-dotenv sqlalchemy passlib bcrypt python-jose python-multipart fastapi-mail mysqlclient
