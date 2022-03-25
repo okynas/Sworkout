@@ -32,15 +32,14 @@ def get_all(db: Session, current_user: User):
     return session
 
 
-def get_one_workout(workout_id: int, db: Session, current_user: User):
+def get_one_session(session_id: int, db: Session, current_user: User):
     # check if you are current user:
     user_to_check = db.query(User).filter(User.username == current_user.username).first()
     if not user_to_check:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Could not find the user")
 
     # check if the current user has any sessions and has with the spesific id
-    session = db.query(Session).filter(
-        Session.workout_id == workout_id and Session.user_id == user_to_check.user_id).first()
+    session = db.query(Session).filter(Session.id == session_id and Session.user_id == user_to_check.user_id).first()
 
     if not session:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"This user has no workouts")

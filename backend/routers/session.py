@@ -14,10 +14,10 @@ router = APIRouter(
 get_db = database.get_db
 
 
-@router.get("/{workout_id}", response_model=SessionView)
-def show_one_workout(workout_id: int, db: Session = Depends(get_db),
+@router.get("/{session_id}", response_model=SessionView)
+def show_one_workout(session_id: int, db: Session = Depends(get_db),
                      get_current_user: UserView = Depends(get_current_user)):
-    return SessionRepository.get_one_workout(workout_id, db, get_current_user)
+    return SessionRepository.get_one_session(session_id, db, get_current_user)
 
 
 # get all
