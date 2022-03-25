@@ -1,6 +1,6 @@
-from typing import Optional
+from typing import List, Optional
 from pydantic import BaseModel
-from datetime import date, datetime, time
+from datetime import date, datetime, time, timedelta
 
 from .UserSchema import UserView
 from .WorkoutSchema import WorkoutView
@@ -8,7 +8,10 @@ from .WorkoutSchema import WorkoutView
 
 class SessionBase(BaseModel):
     workout_date: date
-    #workout_time: datetime
+    workout_time: timedelta
+
+    class Config:
+        orm_mode = True
 
 
 class SessionCreate(SessionBase):
@@ -22,8 +25,7 @@ class SessionUpdate(SessionBase):
 
 class SessionView(SessionBase):
     id: int
-    workout: WorkoutView
-    user: UserView = None
+    workouts: List[WorkoutView] = None
 
     class Config:
         orm_mode = True

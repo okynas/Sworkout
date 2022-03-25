@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Date, Time
 from sqlalchemy.orm import relationship
 import datetime
+from models.SessionWorkouts import SessionWorkouts
 from models.UserSessions import UserSessions
 
 from database import Base
@@ -19,10 +20,10 @@ class Session(Base):
     #exercise_id = Column(Integer, ForeignKey("exercise.id"), nullable=False)
     #exercise = relationship("Exercise", back_populates="workout")
 
-    workout = relationship("Workout", back_populates="session")
-    workout_id = Column(Integer, ForeignKey("workout.id"), nullable=False)
-
-    user = relationship("Session", secondary=UserSessions.__tablename__, back_populates="session")
+    # workout = relationship("Workout", back_populates="session")
+    # workout_id = Column(Integer, ForeignKey("workout.id"), nullable=False)
+    workouts = relationship("Workout", secondary=SessionWorkouts.__tablename__, backref="session")
+    users = relationship("User", secondary=UserSessions.__tablename__, backref="session")
 
     # ministry_id = Column(Integer, ForeignKey("ministry.id"), nullable=False, primary_key=True)
     # users_id = Column(Integer, ForeignKey("user.id"), nullable=False, primary_key=True)

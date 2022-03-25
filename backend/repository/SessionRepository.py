@@ -1,4 +1,6 @@
 from sqlalchemy.sql.functions import now
+from models.SessionWorkouts import SessionWorkouts
+from models.UserSessions import UserSessions
 from config.middleware import create_recovery_key
 from sqlalchemy.orm import Session, session
 from fastapi import HTTPException, status
@@ -15,10 +17,17 @@ def get_all(db: Session, current_user: User):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Could not find the user")
 
     # check if the current user has any sessions
-    session = db.query(Session).filter(Session.user_id == user_to_check.id).all()
+    userSession = db.query(UserSessions).filter(UserSessions.user_id == user_to_check.id).all()
 
-    if not session:
+    if not userSession:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"This user has no sessions!")
+
+    sessionWorkout = db.query(SessionWorkouts).filter(SessionWorkouts.session_id == UserSessions.session_id).all()
+
+    if not sessionWorkout:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"This session has no workouts!")
+
+    session = db.query(Session).filter(Session.id == UserSessions.session_id).all()
 
     return session
 

@@ -21,6 +21,6 @@ class User(Base):
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.datetime.utcnow)
 
-    session = relationship("Session", secondary=UserSessions.__tablename__, back_populates="user")
+    sessions = relationship("Session", secondary=UserSessions.__tablename__, backref="user")
 
 

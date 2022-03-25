@@ -43,7 +43,6 @@ class UserUpdate(UserBase):
 class UserView(UserBase):
     id: int
     username: str
-
     is_confirmed: Optional[bool] = None
     is_admin: bool
     created_at: datetime = None

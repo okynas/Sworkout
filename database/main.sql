@@ -1,3 +1,6 @@
+create database if not exists `sworkout`;
+use `sworkout`;
+
 CREATE TABLE IF NOT EXISTS `exercise` (
   `id` INTEGER AUTO_INCREMENT,
   `name` VARCHAR(120),
@@ -49,7 +52,6 @@ CREATE TABLE IF NOT EXISTS `recovery` (
 
 CREATE TABLE IF NOT EXISTS `session` (
   `id` INTEGER AUTO_INCREMENT,
-  `workout_id` INT(11) NOT NULL,
   `workout_date` DATE NOT NULL,
   `workout_time` TIME NULL,
   PRIMARY KEY (`id`)
@@ -59,6 +61,12 @@ CREATE TABLE IF NOT EXISTS `userSessions` (
   `session_id` INT(11) NOT NULL,
   `user_id` INT(11) NOT NULL,
   PRIMARY KEY (`session_id`, `user_id`)
+)ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `sessionWorkouts` (
+  `session_id` INT(11) NOT NULL,
+  `workout_id` INT(11) NOT NULL,
+  PRIMARY KEY (`session_id`, `workout_id`)
 )ENGINE = InnoDB;
 
 
@@ -72,9 +80,12 @@ values (1, "Benchpress", "", 3, NOW(), NOW());
 insert ignore into `workout`(`id`, `repetition`, `set`, `weight`, `created_at`, `updated_at`)
 values (1, 10, 3, 3, NOW(), NOW());
 
-insert ignore into `session` (`workout_id`, `exercise_id`, `workout_date`, `workout_time`)
-values(1, 1, NOW(), NOW());
+insert ignore into `session` (`id`, `workout_date`, `workout_time`)
+values(1, NOW(), NOW());
 
 insert ignore into `userSessions` (`user_id`, `session_id`)
+values(1, 1);
+
+insert ignore into `sessionWorkouts` (`workout_id`, `session_id`)
 values(1, 1);
 

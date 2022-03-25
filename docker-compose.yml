@@ -21,7 +21,7 @@ services:
     container_name: sworkout-fastapi-backend
     build: ./backend
     working_dir: /code
-    command: uvicorn main:app --host 0.0.0.0 --port 5000 --reload
+    command: uvicorn main:app --host 0.0.0.0 --port 5001 --reload
     environment:
       FASTAPI_PROJECT_NAME: Swift Workout
       FASTAPI_PROJECT_VERSION: 1.0.0
@@ -43,7 +43,8 @@ services:
     volumes:
       - ./backend:/code
     ports:
-      - "5000:5000"
+      - "5001:5001"
+      # - "HOST:CONTAINER"
     restart: on-failure
   # db
   mysql:
