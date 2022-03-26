@@ -4,7 +4,7 @@ from models.UserSessions import UserSessions
 from config.middleware import create_recovery_key
 from sqlalchemy.orm import Session, session
 from fastapi import HTTPException, status
-from schema import ExerciseUpdate, ExerciseCreate, SessionCreate, SessionUpdate, SessionAddWorkout
+from schema import ExerciseUpdate, ExerciseCreate, SessionCreate, SessionUpdate, SessionAddWorkout, SessionEditWorkout
 from models import User, Session, Exercise, Workout
 from datetime import datetime, date, time
 
@@ -103,6 +103,8 @@ def update_one(id: int, request: SessionUpdate, db: Session, current_user: User)
     db.commit()
     return f'Successfully updated session with id: {id}'
 
+def edit_workout_by_id(workout_id: int, request: SessionEditWorkout, db: Session, get_current_user: User):
+    pass
 
 def delete(id: int, db: Session, current_user: User):
     user_to_check = db.query(User).filter(User.username == current_user.username).first()

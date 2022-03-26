@@ -1,3 +1,4 @@
+from lib2to3.pytree import Base
 from typing import List, Optional
 from pydantic import BaseModel
 from datetime import date, datetime, time, timedelta
@@ -20,6 +21,10 @@ class SessionCreate(SessionBase):
 
 class SessionUpdate(SessionBase):
     pass
+
+class SessionEditWorkout(BaseModel):
+    workout_id: int
+    new_workout_id: int
 
 
 class SessionView(SessionBase):
