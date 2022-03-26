@@ -37,11 +37,15 @@ def add_workout_to_session(request: SessionAddWorkout, db: Session = Depends(get
                     get_current_user: UserView = Depends(get_current_user)):
     return SessionRepository.add_workout_to_session(request, db, get_current_user)
 
-@router.patch("/{workout_id}", status_code=status.HTTP_202_ACCEPTED)
-def update_one_session_by_workout(workout_id: int, request: SessionUpdate, db: Session = Depends(get_db),
+@router.patch("/edit/{session_id}", status_code=status.HTTP_202_ACCEPTED)
+def update_session_time_and_date(session_id: int, request: SessionUpdate, db: Session = Depends(get_db),
                                   get_current_user: UserView = Depends(get_current_user)):
-    return SessionRepository.update_one(workout_id, request, db, get_current_user)
+    return SessionRepository.update_one(session_id, request, db, get_current_user)
 
+@router.patch("/edit_workout/{workout_id}", status_code=status.HTTP_202_ACCEPTED)
+def update_session_time_and_date(workout_id: int, request: SessionUpdate, db: Session = Depends(get_db),
+                                  get_current_user: UserView = Depends(get_current_user)):
+    return None;
 
 @router.delete("/", status_code=status.HTTP_204_NO_CONTENT)
 def delete_exercise(id: int, db: Session = Depends(get_db),
