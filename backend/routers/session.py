@@ -42,12 +42,12 @@ def update_session_time_and_date(session_id: int, request: SessionUpdate, db: Se
                                   get_current_user: UserView = Depends(get_current_user)):
     return SessionRepository.update_one(session_id, request, db, get_current_user)
 
-@router.patch("/edit_workout/{workout_id}", status_code=status.HTTP_202_ACCEPTED)
-def update_session_time_and_date(workout_id: int, request: SessionUpdate, db: Session = Depends(get_db),
+@router.delete("/{session_id}/remove_workout/{workout_id}", status_code=status.HTTP_202_ACCEPTED)
+def remove_workout_from_session(session_id: int, workout_id: int, db: Session = Depends(get_db),
                                   get_current_user: UserView = Depends(get_current_user)):
-    return SessionRepository.edit_workout_by_id(workout_id, request, db, get_current_user)
+    return SessionRepository.remove_workout_from_session(session_id, workout_id, db, get_current_user)
 
 @router.delete("/", status_code=status.HTTP_204_NO_CONTENT)
-def delete_exercise(id: int, db: Session = Depends(get_db),
+def delete_workout(id: int, db: Session = Depends(get_db),
                     get_current_user: UserView = Depends(get_current_user)):
     return SessionRepository.delete(id, db, get_current_user)

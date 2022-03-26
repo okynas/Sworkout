@@ -35,5 +35,4 @@ class SessionView(SessionBase):
         orm_mode = True
 
 class SessionAddWorkout(BaseModel):
-    session_id: int
     workout_id: int

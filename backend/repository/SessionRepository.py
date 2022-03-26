@@ -103,8 +103,24 @@ def update_one(id: int, request: SessionUpdate, db: Session, current_user: User)
     db.commit()
     return f'Successfully updated session with id: {id}'
 
-def edit_workout_by_id(workout_id: int, request: SessionEditWorkout, db: Session, get_current_user: User):
-    pass
+def remove_workout_from_session(session_id: int, workout_id: int, db: Session, get_current_user: User):
+    user_to_check = db.query(User).filter(User.username == get_current_user.username).first()
+    if not user_to_check:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Could not find the user")
+
+    check_user_have_session = db.query(UserSessions).filter(UserSessions.session_id == session_id).first()
+
+    if not check_user_have_session:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"The current user does not have this session saved")
+
+    workout_in_session = db.query(SessionWorkouts).filter(SessionWorkouts.workout_id == workout_id).filter(SessionWorkouts.session_id == session_id)
+    if not workout_in_session.first():
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f"Session does not have workout with id: {workout_id}")
+
+    workout_in_session.delete(synchronize_session=False)
+    db.commit()
+    return "Successfully removed workout from session"
 
 def delete(id: int, db: Session, current_user: User):
     user_to_check = db.query(User).filter(User.username == current_user.username).first()
