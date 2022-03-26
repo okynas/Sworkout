@@ -4,7 +4,7 @@ from models.UserSessions import UserSessions
 from config.middleware import create_recovery_key
 from sqlalchemy.orm import Session, session
 from fastapi import HTTPException, status
-from schema import ExerciseUpdate, ExerciseCreate, SessionCreate, SessionUpdate
+from schema import ExerciseUpdate, ExerciseCreate, SessionCreate, SessionUpdate, SessionAddWorkout
 from models import User, Session, Exercise, Workout
 from datetime import datetime, date, time
 
@@ -54,25 +54,38 @@ def create(request: SessionCreate, db: Session, current_user: User):
     if not request.workout_id:
         raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=f"Id of workout is required")
 
-    workout_find = db.query(Workout).filter(Workout.id == request.workout_id).first()
-    if not workout_find:
-        raise HTTPException(status_code=status.HTTP_409_CONFLICT,
-                            detail=f"Workout with id {request.workout_id} does not exists")
-
-    session_has_workout = db.query(Session).filter(Session.workout_id == workout_find.id).first()
-    if session_has_workout:
-        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=f"Session already has a workout with that id")
-
     new_session = Session(
-        workout_id=request.workout_id,
-        user_id=user_to_check.id,
         workout_date=request.workout_date,
         workout_time=request.workout_time
-
     )
     db.add(new_session)
     db.commit()
     db.refresh(new_session)
+    return new_session
+
+def add_workout_to_session(request: SessionAddWorkout, db: Session, current_user: User):
+    user_to_check = db.query(User).filter(User.username == current_user.username).first()
+    if not user_to_check:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Could not find the user")
+    
+    session_to_check = db.query(Session).filter(Session.id == request.session_id).first()
+    
+    if not session_to_check:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"The session with that id does not exists")
+
+    if db.query(Session).filter(SessionWorkouts.session_id == request.session_id and SessionWorkouts.workout_id == request.workout_id).first():
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"The session with that workout id exists")
+    
+    add_session = SessionWorkouts(
+        workout_id=request.workout_id,
+        session_id=request.session_id
+    )
+    db.add(add_session)
+    db.commit()
+    db.refresh(add_session)
+    
+    new_session = db.query(Session).filter(Session.id == request.session_id).first()
+
     return new_session
 
 

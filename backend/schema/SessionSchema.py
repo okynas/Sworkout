@@ -16,7 +16,6 @@ class SessionBase(BaseModel):
 
 class SessionCreate(SessionBase):
     workout_id: int
-    user_id: int
 
 
 class SessionUpdate(SessionBase):
@@ -29,3 +28,7 @@ class SessionView(SessionBase):
 
     class Config:
         orm_mode = True
+
+class SessionAddWorkout(BaseModel):
+    session_id: int
+    workout_id: int

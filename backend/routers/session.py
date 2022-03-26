@@ -2,7 +2,7 @@ from typing import List
 from config.middleware import get_current_user
 from fastapi import APIRouter, Depends, status
 import database
-from schema import UserView, ExerciseUpdate, ExerciseCreate, SessionView, SessionUpdate, SessionCreate
+from schema import UserView, ExerciseUpdate, ExerciseCreate, SessionView, SessionUpdate, SessionCreate,SessionAddWorkout
 from sqlalchemy.orm import Session
 from repository import SessionRepository
 
@@ -31,6 +31,11 @@ def create_exercise(request: SessionCreate, db: Session = Depends(get_db),
                     get_current_user: UserView = Depends(get_current_user)):
     return SessionRepository.create(request, db, get_current_user)
 
+
+@router.post("/add_to_session", status_code=status.HTTP_201_CREATED, response_model=SessionView)
+def add_workout_to_session(request: SessionAddWorkout, db: Session = Depends(get_db),
+                    get_current_user: UserView = Depends(get_current_user)):
+    return SessionRepository.add_workout_to_session(request, db, get_current_user)
 
 @router.patch("/{workout_id}", status_code=status.HTTP_202_ACCEPTED)
 def update_one_session_by_workout(workout_id: int, request: SessionUpdate, db: Session = Depends(get_db),
