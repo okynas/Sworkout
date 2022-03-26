@@ -8,7 +8,7 @@ from .WorkoutSchema import WorkoutView
 
 class SessionBase(BaseModel):
     workout_date: date
-    workout_time: timedelta
+    workout_time: time
 
     class Config:
         orm_mode = True
@@ -19,7 +19,7 @@ class SessionCreate(SessionBase):
 
 
 class SessionUpdate(SessionBase):
-    workout_id: Optional[int] = None
+    pass
 
 
 class SessionView(SessionBase):

@@ -94,18 +94,14 @@ def update_one(id: int, request: SessionUpdate, db: Session, current_user: User)
     if not user_to_check:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Could not find the user")
 
-    # does not change session, from one workout to another, keep the same workout id
-    if not request.workout_id:
-        request.workout_id = id
-
-    session = db.query(Session).filter(Session.workout_id == id)
+    session = db.query(Session).filter(Session.id == id)
 
     if not session.first():
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Session with id: {id} not found")
 
     session.update({**request.dict(exclude_unset=True)})
     db.commit()
-    return 'Updated successfully'
+    return f'Successfully updated session with id: {id}'
 
 
 def delete(id: int, db: Session, current_user: User):
