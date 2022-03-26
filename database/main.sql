@@ -77,8 +77,8 @@ VALUES ("admin", "admin", "admin", "admin@okynas.com", 90089885, "$2b$12$jTMqgw8
 insert ignore into `exercise`(`id`, `name`, `image`, `difficulty`, `created_at`, `updated_at`)
 values (1, "Benchpress", "", 3, NOW(), NOW());
 
-insert ignore into `workout`(`id`, `repetition`, `set`, `weight`, `created_at`, `updated_at`)
-values (1, 10, 3, 3, NOW(), NOW());
+insert ignore into `workout`(`id`, `name`, `exercise_id`, `repetition`, `set`, `weight`, `created_at`, `updated_at`)
+values (1, "3-10-Benchpress", 1, 10, 3, 3, NOW(), NOW());
 
 insert ignore into `session` (`id`, `workout_date`, `workout_time`)
 values(1, NOW(), NOW());

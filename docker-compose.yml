@@ -71,12 +71,11 @@ services:
     ports:
       - 8080:8080
   frontend:
-    container_name: sworkout-react-frontend
+    container_name: sworkout-frontend
     build:
       context: ./frontend
     ports:
       - "3000:3000"
-    container_name: sworkout-frontend
     stdin_open: true
     volumes:
        - ./frontend:/usr/src/app/frontend

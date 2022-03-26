@@ -27,7 +27,7 @@ def show_all(db: Session = Depends(get_db), get_current_user: UserView = Depends
 
 
 @router.post("/", status_code=status.HTTP_201_CREATED, response_model=SessionView)
-def create_exercise(request: SessionCreate, db: Session = Depends(get_db),
+def create_session(request: SessionCreate, db: Session = Depends(get_db),
                     get_current_user: UserView = Depends(get_current_user)):
     return SessionRepository.create(request, db, get_current_user)
 
