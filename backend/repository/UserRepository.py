@@ -37,11 +37,15 @@ def destroy(currentUser: User, db: Session):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Could not find your user")
     user.delete(synchronize_session=False)
     db.commit()
-    return "Deletes successfully"
+    return {
+        "detial": "Deletes successfully"
+    }
 
 
 def destroy_all(db: Session):
     all_uses = db.query(User)
     all_uses.delete(synchronize_session=False)
     db.commit()
-    return "Deletes successfully"
+    return {
+        "detial": "Deletes successfully"
+    }

@@ -47,9 +47,15 @@ def update_one(id: int, request: ExerciseUpdate, db: Session):
     if not exercise.first():
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Exercise with id {id} not found")
 
-    exercise.update({"updated_at": datetime.datetime.now(), **request.dict(exclude_unset=True)})
+    exercise.update({
+        "updated_at": datetime.datetime.now(),
+        **request.dict(exclude_unset=True)
+    })
+
     db.commit()
-    return 'Updated successfully'
+    return {
+        "detail": 'Updated successfully'
+    }
 
 
 def delete(id: int, db: Session):
@@ -60,4 +66,6 @@ def delete(id: int, db: Session):
 
     exercise.delete(synchronize_session=False)
     db.commit()
-    return "Deletes successfully"
+    return {
+        "detail": "Deletes successfully"
+    }

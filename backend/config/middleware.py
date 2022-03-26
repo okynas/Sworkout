@@ -69,11 +69,9 @@ def verify_token(token: str, credentials_exception):
     except NameError:
         raise credentials_exception
     except jwt.ExpiredSignatureError:
-        print("WORKS?=")
         return {'Details': 'Token Expired!'}
 
     return token_data
-
 
 def get_current_user(token: str = Depends(settings.OAUTH2_SCHEME)):
     """

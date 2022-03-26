@@ -3,7 +3,7 @@ from sqlalchemy.sql.expression import true
 from config.middleware import validate_email, verify_password, create_access_token, hash_password, create_recovery_key, \
     send_recovery_mail
 from models import User, Recovery
-from schema import UserCreate, ForgotPassword, ResetPassword
+from schema import UserCreate, ForgotPassword, ResetPassword, UserUpdatePassword, UserView
 from fastapi import HTTPException, status
 from fastapi.responses import JSONResponse
 import datetime
@@ -65,6 +65,26 @@ def create(request: UserCreate, db: Session):
     db.refresh(new_user)
     return new_user
 
+def update_password(request: UserUpdatePassword, db: Session, current_user: UserView):
+    user = db.query(User).filter(User.email == request.email)
+    if not user.first():
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Could not find user")
+
+    if not request.new_password or request.confirm_password or request.old_password:
+        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="Params missing")
+
+    if not request.new_password == request.confirm_password:
+        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="Passwords are not matching")
+
+    user.update({
+        "password": hash_password(request.new_password),
+        "updated_at": datetime.datetime.utcnow()
+    })
+
+    db.commit()
+    return {
+        "detail": 'Successfully updated password for user'
+    }
 
 def forgot_password(request: ForgotPassword, db: Session):
 
@@ -130,14 +150,14 @@ def reset_password(request: ResetPassword, db: Session):
 
 
 def logout(db: Session, currentUser: User):
-    content = {"status": "Logout failed!"}
+    content = {"detail": "Logout failed!"}
     try:
         user = db.query(User).filter(User.username == currentUser.username).first()
         if not user:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Invalid Credentials")
 
         access_token = create_access_token(data={"sub": currentUser.username}, expires_delta=0)
-        content = {"access_token": access_token, "token_type": "bearer", "status": "Logged out"}
+        content = {"access_token": access_token, "token_type": "bearer", "detail": "Logged out"}
     except Exception:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"No token provided")
     finally:

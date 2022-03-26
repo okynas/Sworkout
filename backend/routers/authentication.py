@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, status
 import database
-from schema import Authentication, UserView, Token, UserCreate, ForgotPassword, ResetPassword
+from schema import Authentication, UserView, Token, UserCreate, ForgotPassword, ResetPassword, UserUpdatePassword
 from sqlalchemy.orm import Session
 from repository import AuthenticationRepository
 from config.middleware import get_current_user
@@ -33,9 +33,9 @@ def regiser_a_new_user(request: UserCreate, db: Session = Depends(get_db)):
 
 
 # update
-# @router.put("/me", status_code = status.HTTP_202_ACCEPTED)
-# def update(request: UserUpdate, db: Session = Depends(get_db), get_current_user: UserView = Depends(get_current_user)):
-#   return UserRepositorry.update(request, db, get_current_user)
+@router.patch("/update-password", status_code = status.HTTP_202_ACCEPTED)
+def update(request: UserUpdatePassword, db: Session = Depends(get_db), get_current_user: UserView = Depends(get_current_user)):
+  return AuthenticationRepository.update_password(request, db, get_current_user)
 
 # forgotten password
 @router.post("/forgot-password")

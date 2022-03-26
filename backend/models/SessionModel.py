@@ -3,6 +3,7 @@ from sqlalchemy.orm import relationship
 import datetime
 from models.SessionWorkouts import SessionWorkouts
 from models.UserSessions import UserSessions
+from sqlalchemy.dialects.mysql import TIME
 
 from database import Base
 
@@ -13,7 +14,7 @@ class Session(Base):
     id = Column(Integer, primary_key=True, unique=True, nullable=False)
 
     workout_date = Column(Date, default=datetime.date)
-    workout_time = Column(String, default="11:00")
+    workout_time = Column(TIME(), default="11:00")
 
     #Location
 

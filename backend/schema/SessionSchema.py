@@ -16,7 +16,8 @@ class SessionBase(BaseModel):
 
 
 class SessionCreate(SessionBase):
-    workout_id: int
+    pass
+    #workout_id: int
 
 
 class SessionUpdate(SessionBase):

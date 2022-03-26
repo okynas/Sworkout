@@ -16,17 +16,17 @@ get_db = database.get_db
 
 # get all
 @router.get("/", response_model=List[UserView])
-def show_all(db: Session = Depends(get_db)):  # , get_currrent_user: UserView = Depends(get_current_user)):
+def show_all(db: Session = Depends(get_db) , get_currrent_user: UserView = Depends(get_current_user)):
     return UserRepository.get_all(db)
 
 
-@router.get("/id/{id}")  # , response_model = UserView)
-def show_one(id: int, db: Session = Depends(get_db)):  # , get_current_user: UserView = Depends(get_current_user)):
+@router.get("/id/{id}" , response_model = UserView)
+def show_one(id: int, db: Session = Depends(get_db) , get_current_user: UserView = Depends(get_current_user)):
     return UserRepository.get_one_user(id, db)
 
 
-@router.get("/username/{username}")  # , response_model = UserView)
-def show_one_by_username(username: str, db: Session = Depends(get_db)):
+@router.get("/username/{username}" , response_model = UserView)
+def show_one_by_username(username: str, db: Session = Depends(get_db), get_current_user: UserView = Depends(get_current_user)):
     return UserRepository.get_one_user_by_username(username, db)
 
 
