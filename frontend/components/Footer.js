@@ -14,7 +14,7 @@ export default function Footer({className}) {
             </a>
           </Link>
           <span className="block mt-3 text-sm text-text dark:text-gray-400">
-            &copy; 2022 Trenger AS. Org. 928 050 106
+            &copy; 2022 Trenger AS. Org. xxx xxx xxx
           </span>
         </div>
           <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
