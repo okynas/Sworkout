@@ -30,6 +30,10 @@
 
 A simple fullstack webapp for keeping progress of your workouts!
 
+ ![Swagger UI](swagger_ui.PNG)
+ ![Swagger UI 2](swagger_ui_2.PNG)
+ ![Swagger UI 3](swagger_ui_2.PNG)
+
 ## Built With
 
 Built with:
