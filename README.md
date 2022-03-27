@@ -7,13 +7,7 @@
   <h3 align="center">Docker FastApi Test</h3>
 
   <p align="center">
-    An Awesome ReadME Generator To Jumpstart Your Projects!
-    <br/>
-    <br/>
-    <a href="https://github.com/okynas/Docker-Fastapi-test"><strong>Explore the docs »</strong></a>
-    <br/>
-    <br/>
-    <a href="https://github.com/okynas/Docker-Fastapi-test">View Demo</a>
+    SWorkout - be a better you!
     .
     <a href="https://github.com/okynas/Docker-Fastapi-test/issues">Report Bug</a>
     .
@@ -43,48 +37,9 @@ A description...
 
 ## Built With
 
-Built with docker, fastapi, mysql, react, ...
+Built with docker, fastapi, mysql, react, nextjs, tailwindcss
 
-## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
-
-### Prerequisites
-
-This is an example of how to list things you need to use the software and how to install them.
-
-* npm
-
-```sh
-npm install
-```
-
-### Installation
-
-1. Get a free API Key at [https://example.com](https://example.com)
-
-2. Clone the repo
-
-```sh
-git clone https://github.com/your_username_/Project-Name.git
-```
-
-3. Install NPM packages
-
-```sh
-npm install
-```
-
-4. Enter your API in `config.js`
-
-```JS
-const API_KEY = 'ENTER YOUR API';
-```
-
-## Usage
-
-USAGE
 
 ## Roadmap
 
@@ -108,14 +63,9 @@ Contributions are what make the open source community such an amazing place to b
 
 ## License
 
-Distributed under the MIT License. See [LICENSE](https://github.com/okynas/Docker-Fastapi-test/blob/main/LICENSE.md) for more information.
+Distributed under the MIT License. See [LICENSE](https://github.com/okynas/Sworkout/blob/master/LICENSE) for more information.
 
 ## Authors
 
 * **OkYNaS** - *Computer Science Student* - [OkYNaS](https://github.com/okynas/) - **
 
-## Acknowledgements
-
-* []()
-* []()
-* []()
