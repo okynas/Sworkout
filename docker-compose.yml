@@ -21,29 +21,29 @@ services:
     container_name: sworkout-fastapi-backend
     build: ./backend
     working_dir: /code
-    command: uvicorn main:app --host 0.0.0.0 --port 5001 --reload
+    command: uvicorn main:app --host 0.0.0.0 --port ${BACKEND_PORT} --reload
     environment:
-      FASTAPI_PROJECT_NAME: Swift Workout
-      FASTAPI_PROJECT_VERSION: 1.0.0
-      FASTAPI_DESCRIPTION: "Normal description"
-      FASTAPI_PROJECT_STATUS: Development
-      FASTAPI_AUTHENTICATION_SECRET_KEY: d15905d2c33588d2264167c3f9c190a1
-      FASTAPI_AUTHENTICATION_ALGORITHM: HS256
-      FASTAPI_AUTHENTICATION_TOKEN_EXPIRE_MINUTES: 30
-      FASTAPI_RECOVERY_KEY_EXPIRE_MINUTES : 43200
-      FASTAPI_RECOVERY_SECRET_KEY: e66543ab68102d3a2cacd650168d8102
-      FASTAPI_RECOVERY_LENGTH: 24
-      FASTAPI_MYSQL_ROOT_PASSWORD: root
-      FASTAPI_MYSQL_USER: admin
-      FASTAPI_MYSQL_PASSWORD: admin
-      FASTAPI_MYSQL_DATABASE: sworkout
-      FASTAPI_MYSQL_HOST: mysql
-      FASTAPI_DOCS_URL: /docs
-      FASTAPI_DOCKER: 1
+      FASTAPI_PROJECT_NAME: ${FASTAPI_PROJECT_NAME}
+      FASTAPI_PROJECT_VERSION: ${FASTAPI_PROJECT_VERSION}
+      FASTAPI_DESCRIPTION: ${FASTAPI_DESCRIPTION}
+      FASTAPI_PROJECT_STATUS: ${FASTAPI_PROJECT_STATUS}
+      FASTAPI_AUTHENTICATION_SECRET_KEY: ${FASTAPI_AUTHENTICATION_SECRET_KEY}
+      FASTAPI_AUTHENTICATION_ALGORITHM: ${FASTAPI_AUTHENTICATION_ALGORITHM}
+      FASTAPI_AUTHENTICATION_TOKEN_EXPIRE_MINUTES: ${FASTAPI_AUTHENTICATION_TOKEN_EXPIRE_MINUTES}
+      FASTAPI_RECOVERY_KEY_EXPIRE_MINUTES : ${FASTAPI_RECOVERY_KEY_EXPIRE_MINUTES}
+      FASTAPI_RECOVERY_SECRET_KEY: ${FASTAPI_RECOVERY_SECRET_KEY}
+      FASTAPI_RECOVERY_LENGTH: ${FASTAPI_RECOVERY_LENGTH}
+      FASTAPI_MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      FASTAPI_MYSQL_USER: ${MYSQL_USER}
+      FASTAPI_MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      FASTAPI_MYSQL_DATABASE: ${MYSQL_DATABASE}
+      FASTAPI_MYSQL_HOST: ${MYSQL_HOST}
+      FASTAPI_DOCS_URL: ${FASTAPI_DOCS_URL}
+      FASTAPI_DOCKER: ${FASTAPI_DOCKER}
     volumes:
       - ./backend:/code
     ports:
-      - "5001:5001"
+      - ${BACKEND_PORT}:${BACKEND_PORT}
       # - "HOST:CONTAINER"
     restart: on-failure
   # db
@@ -52,13 +52,13 @@ services:
     build: ./database
     restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_USER: admin
-      MYSQL_PASSWORD: admin
-      MYSQL_DATABASE: sworkout
-      MYSQL_HOST: mysql
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_HOST: ${MYSQL_HOST}
     ports:
-      - 3307:3307
+      - ${MYSQL_PORT}:${MYSQL_PORT}
     volumes:
       - ./database/:/docker-entrypoint-initdb.d/
   # adminer
@@ -69,15 +69,15 @@ services:
     image: adminer
     restart: always
     ports:
-      - 8080:8080
-  frontend:
-    container_name: sworkout-frontend
-    build:
-      context: ./frontend
-    ports:
-      - "3000:3000"
-    stdin_open: true
-    volumes:
-       - ./frontend:/usr/src/app/frontend
-       - /usr/src/app/frontend/node_modules
+      - ${ADMINER_PORT}:${ADMINER_PORT}
+  # frontend:
+  #   container_name: sworkout-frontend
+  #   build:
+  #     context: ./frontend
+  #   ports:
+  #     - "3000:3000"
+  #   stdin_open: true
+  #   volumes:
+  #      - ./frontend:/usr/src/app/frontend
+  #      - /usr/src/app/frontend/node_modules
 

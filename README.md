@@ -21,24 +21,24 @@
 
 * [About the Project](#about-the-project)
 * [Built With](#built-with)
-* [Getting Started](#getting-started)
-  * [Prerequisites](#prerequisites)
-  * [Installation](#installation)
-* [Usage](#usage)
 * [Roadmap](#roadmap)
 * [Contributing](#contributing)
 * [License](#license)
 * [Authors](#authors)
-* [Acknowledgements](#acknowledgements)
 
 ## About The Project
 
-A description...
+A simple fullstack webapp for keeping progress of your workouts!
 
 ## Built With
 
-Built with docker, fastapi, mysql, react, nextjs, tailwindcss
-
+Built with:
+- docker
+- python
+  - swagger UI for documentation
+  - fastapi
+  - uvicorn
+- mysql
 
 
 ## Roadmap
