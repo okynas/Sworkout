@@ -4,7 +4,7 @@
     <img src="logo.png" alt="Logo" width="80" height="80">
   </a>
 
-  <h3 align="center">Docker FastApi Test</h3>
+  <h3 align="center">SWorkout - fullstack workout webapp</h3>
 
   <p align="center">
     SWorkout - be a better you!
